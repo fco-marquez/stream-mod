@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitch Chat Moderator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Twitch Chat Moderator</h1>
+    <form method="POST">
+        <input type="text" name="twitch_url" placeholder="https://www.twitch.tv/some_channel" required />
+        <button type="submit">Connect</button>
+    </form>
+
+    {% if channel %}
+        <h2>Live Chat from {{ channel }}</h2>
+        <div id="chat-box" style="border:1px solid black; padding:10px; height:300px; overflow-y:scroll;"></div>
+    {% endif %}
+{% if channel %}
+<script>
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML = ""; // Clear old messages
+    const evtSource = new EventSource("/chat");
+
+    evtSource.onmessage = function(event) {
+        const msg = document.createElement("p");
+        msg.textContent = event.data;
+        chatBox.appendChild(msg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+</script>
+{% endif %}
+
+</body>
+</html>
