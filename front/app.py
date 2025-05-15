@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, Response
 from moderator import moderate_message
-import socket
-import threading
+import socket, threading, json, datetime, re
 
 app = Flask(__name__)
 
@@ -16,7 +15,7 @@ stop_event = threading.Event()
 
 def connect_to_chat(channel, stop_event):
     global chat_lines
-    chat_lines.clear()  # Clear old messages
+    chat_lines.clear()
     sock = socket.socket()
     sock.connect((HOST, PORT))
     sock.send(f"PASS {TOKEN}\n".encode('utf-8'))
@@ -29,13 +28,22 @@ def connect_to_chat(channel, stop_event):
             if "PING" in response:
                 sock.send("PONG :tmi.twitch.tv\n".encode('utf-8'))
             else:
-                parts = response.split(":", 2)
-                if len(parts) >= 3:
-                    message = parts[2].strip()
-                    if moderate_message(message):
-                        chat_lines.append(message)
+                matches = re.search(r'^:(\w+)!.*? PRIVMSG #[\w]+ :(.+)$', response)
+                if matches:
+                    username = matches.group(1)
+                    message = matches.group(2).strip()
+                    timestamp = datetime.datetime.now().strftime('%H:%M:%S')
+
+                    approved, reason = moderate_message(message)
+                    chat_lines.append({
+                        "text": message,
+                        "moderated": not approved,
+                        "reason": reason,
+                        "username": username,
+                        "timestamp": timestamp
+                    })
         except:
-            break  # Socket closed or interrupted
+            break
 
     sock.close()
 
@@ -70,8 +78,8 @@ def stream_chat():
         prev_len = 0
         while True:
             if len(chat_lines) > prev_len:
-                for line in chat_lines[prev_len:]:
-                    yield f"data: {line}\n\n"
+                for msg in chat_lines[prev_len:]:
+                    yield f"data: {json.dumps(msg)}\n\n"
                 prev_len = len(chat_lines)
     return Response(stream(), mimetype='text/event-stream')
 

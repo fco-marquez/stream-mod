@@ -1,3 +1,6 @@
+import random
+
 def moderate_message(message):
-    # Add more AI moderation logic here if needed (toxicity detection, etc.)
-    return True
+    if random.random() < 0.3:
+        return False, "Profanity"
+    return True, None
