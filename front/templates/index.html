@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamMod</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Stream-MOD</h1>
+    <h2>Moderador de chats de Twitch</h2>
+    <form method="POST">
+        <input type="text" name="twitch_url" placeholder="https://www.twitch.tv/nombre_canal" required />
+        <button type="submit">Connect</button>
+    </form>
+
+    {% if channel %}
+        <h2>Chat en vivo de {{ channel }}</h2>
+        <div id="chat-box" style="border:1px solid black; padding:10px; height:300px; overflow-y:scroll;"></div>
+        <!-- Modal -->
+        <div id="message-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Mensaje Moderado</h3>
+                <p><strong>usuario:</strong> <span id="modal-user"></span></p>
+                <p><strong>Enviado a las:</strong> <span id="modal-time"></span></p>
+                <p><strong>Mensaje:</strong></p>
+                <p id="modal-message"></p>
+                <p><strong>Razón:</strong> <span id="modal-reason"></span></p>
+            </div>
+        </div>
+    {% endif %}
+{% if channel %}
+<script lang="javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endif %}
+
+</body>
+</html>
