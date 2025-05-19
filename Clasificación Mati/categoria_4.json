@@ -1,0 +1,167 @@
+[
+  {
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "daa634c2-f75d-4252-8c87-23436a47bd3b",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614297113000,
+    "user_type": "",
+    "message": "Aqui con dos melones y un perro culon",
+    "author": {
+      "display_name": "sibulkas",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "1296659654",
+      "name": "sibulkas"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "8-12:S.5",
+    "message_id": "175a5f45-d72b-4ffe-9834-e953d15bd748",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616137575000,
+    "user_type": "",
+    "message": "parecen tetas",
+    "author": {
+      "display_name": "rociomerino6",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "1300107387",
+      "name": "rociomerino6"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "f27f6bfcc98fc8fd873de8decc63fee8",
+    "colour": "#9ACD32",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "a5f4e7ed-2e59-4116-9e67-62998bf68c1c",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745617204267000,
+    "user_type": "",
+    "message": "cuantas sacudidas hace tio?",
+    "author": {
+      "display_name": "delvasst",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "219119551",
+      "name": "delvasst"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#FFB3B3",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "2dd77144-f5a5-44aa-a6c0-4d3b1fb9d82c",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745617352768000,
+    "user_type": "",
+    "message": "Estuviste en los cocos de tu abuelo",
+    "author": {
+      "display_name": "mile_kiki",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "430429403",
+      "badges": [
+        {
+          "name": "twitch_recap_2024",
+          "version": 1,
+          "title": "Twitch Recap 2024",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.twitch.tv/annual-recap",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/72f2a6ac-3d9b-4406-b9e9-998b27182f61/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/72f2a6ac-3d9b-4406-b9e9-998b27182f61/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/72f2a6ac-3d9b-4406-b9e9-998b27182f61/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "mile_kiki"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "4fbbfdd865f34189388bd557939c59b6",
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "a7f10074-e257-46cf-9caa-e34bff375c1f",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747263680995000,
+    "user_type": "mod",
+    "message": "jordi enp",
+    "author": {
+      "display_name": "elmismisimowarisnake",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "153920248",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "elmismisimowarisnake"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  }
+]

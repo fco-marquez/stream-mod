@@ -1,0 +1,758 @@
+[
+  {
+    "client_nonce": "3a29aa530a93828ef2c600ff90eb8f90",
+    "colour": "#D2691E",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "f3361575-3b42-4279-b5a6-02a03901ed33",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614691054000,
+    "user_type": "",
+    "is_vip": true,
+    "message": "QUE WEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "author": {
+      "display_name": "resimuerto",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "155801214",
+      "badges": [
+        {
+          "name": "vip",
+          "version": 1,
+          "title": "VIP",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://help.twitch.tv/customer/en/portal/articles/659115-twitch-chat-badges-guide",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "glitchcon2020",
+          "version": 1,
+          "title": "GlitchCon 2020",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.twitchcon.com/",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/1d4b03b9-51ea-42c9-8f29-698e3c85be3d/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/1d4b03b9-51ea-42c9-8f29-698e3c85be3d/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/1d4b03b9-51ea-42c9-8f29-698e3c85be3d/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "resimuerto"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "18ead113-accc-4ee5-ac71-7a542546a03c",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614827106000,
+    "user_type": "mod",
+    "message": "¿Quieres ver todos los shows próximos que tenemos? Entra a: https://www.claudiomichaux.cl y puedes encontrar todos los shows, bares y teatros.",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "1e44f416-c4ea-4ca5-9676-a7c5f1658b16",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614954807000,
+    "user_type": "mod",
+    "message": "catDance REGISTRATE CON MI LINK https://bit.ly/3BooSZE catDance ¡Obtén un bono en tu primer depósito de hasta un 150% del valor de éste!",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "98f1e51a-f7f1-4256-a5c9-920d5767f611",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614955732000,
+    "user_type": "mod",
+    "message": "catDance REGISTRATE CON MI LINK https://bit.ly/3BooSZE catDance ¡Obtén un bono en tu primer depósito de hasta un 150% del valor de éste!",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "b1bcfdce-39dd-45c6-8d6a-9ee52d497e9d",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615451165000,
+    "user_type": "mod",
+    "message": "catDance REGISTRATE CON MI LINK https://bit.ly/3BooSZE catDance ¡Obtén un bono en tu primer depósito de hasta un 150% del valor de éste!",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "7a2f5217-d665-4ffb-b662-cb0662d83d9f",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615723378000,
+    "user_type": "mod",
+    "message": "¿Quieres ver todos los shows próximos que tenemos? Entra a: https://www.claudiomichaux.cl y puedes encontrar todos los shows, bares y teatros.",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "55ec54a2-579b-4314-bc51-59a61019636c",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616629592000,
+    "user_type": "mod",
+    "message": "¿Quieres ver todos los shows próximos que tenemos? Entra a: https://www.claudiomichaux.cl y puedes encontrar todos los shows, bares y teatros.",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#7C7CE1",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "d7c5e7ee-9d1f-485a-a184-7916c13ec0d0",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745617517823000,
+    "user_type": "mod",
+    "message": "¿Quieres ver todos los shows próximos que tenemos? Entra a: https://www.claudiomichaux.cl y puedes encontrar todos los shows, bares y teatros.",
+    "author": {
+      "display_name": "Nightbot",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "19264788",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "partner",
+          "version": 1,
+          "title": "Verified",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://blog.twitch.tv/2017/04/24/the-verified-badge-is-here-13381bc05735",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "nightbot"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "message": "Si buscas estabilidad financiera, Charlotte es tu mejor aliada. Su integridad y transparencia son valores que siempre se reflejan en su trabajo. Gracias @Charlotte Gonzalo Fx 💚"
+  },
+  {
+    "message": "🚨¿Cansado de trabajar 8 horas al día? Yo gano $500 diarios desde casa con trading automático. Escríbeme @CryptoJuanFx 📈"
+  },
+  {
+    "message": "Multiplica tu dinero en 7 días con nuestro método probado 💸 Garantizado o te devolvemos el doble. Contáctame @inversionsegura777"
+  },
+  {
+    "message": "¡No es broma! Gana dinero viendo videos 📺💰 Yo ya facturé $800 esta semana. Link en bio 🔗"
+  },
+  {
+    "message": "Charlotte me ayudó a salir de deudas en solo 3 meses 🙏 Únete a su grupo privado de señales de Forex 💹 @CharlotteSignalClub"
+  },
+  {
+    "message": "💰 Invertí $50 y gané $700 en apuestas deportivas con el bot de @ApuestaInteligente. Pide acceso antes que lo cierren 🕒"
+  },
+  {
+    "message": "¿Quieres ganar dinero sin esfuerzo? 💸 Únete al grupo de inversiones pasivas. Cupos limitados. Habla a @ganancias_reales"
+  },
+  {
+    "message": "📊 Aprende a minar criptomonedas desde tu celular 📱 Curso gratuito solo por hoy. Escribe “MINAR” en el chat"
+  },
+  {
+    "message": "Solo hoy: inversión mínima $10 y gana hasta $200 en 24h 🔥 Comprobado. Escríbeme al DM @RendimientoExpress"
+  },
+  {
+    "message": "Gracias a Charlotte y su equipo tengo ingresos estables desde casa 💻 No es pirámide, es educación financiera real. @finanzaconsciente"
+  },
+  {
+    "message": "🚨 Oportunidad única: entra a nuestro grupo VIP de inversión con IA 🤖. Ganancias automáticas garantizadas. DM @IA_financiera"
+  },
+  {
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "751394e3-0c9d-4219-aab1-b6b49832912e",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747263449170000,
+    "user_type": "mod",
+    "message": "https://youtu.be/6hB6cuHT19c?si=LAbpIDjDs0O6EgSA",
+    "author": {
+      "display_name": "wewent_la",
+      "is_moderator": true,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "821651932",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "subscriber",
+          "version": 24,
+          "title": "2-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 28
+        },
+        {
+          "name": "bits_leader",
+          "version": 1,
+          "title": "Bits Leader 1",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://bits.twitch.tv",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/8bedf8c3-7a6d-4df2-b62f-791b96a5dd31/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/8bedf8c3-7a6d-4df2-b62f-791b96a5dd31/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/8bedf8c3-7a6d-4df2-b62f-791b96a5dd31/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "wewent_la"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  }
+]

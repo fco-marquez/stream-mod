@@ -1,0 +1,1417 @@
+[
+  {
+    "colour": "#FF4500",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "7378ed89-8971-4055-b7cf-d0b15f0b68d0",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614305508000,
+    "user_type": "",
+    "message": "tu mama es tan watona que cuando se tiro en paracaidas hubo eclipse solar en toda la galaxia",
+    "author": {
+      "display_name": "NaTsu_to",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "175729761",
+      "name": "natsu_to"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "#8A2BE2",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "71c921b5-19b7-4d37-b85d-d86ab7a71cbf",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614310203000,
+    "user_type": "",
+    "message": "tu mamá es watona pq el genio malentendió mi deseo",
+    "author": {
+      "display_name": "lefaux1312",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "783175970",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 18,
+          "title": "1.5-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 36
+        }
+      ],
+      "name": "lefaux1312"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "#FF0000",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "d2b19400-575e-4175-bab4-136636628b78",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614317236000,
+    "user_type": "",
+    "message": "Tan watona que se come las uñas con mayo",
+    "author": {
+      "display_name": "maurialvear",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "91461431",
+      "badges": [
+        {
+          "name": "predictions",
+          "version": "pink-2",
+          "title": "Predicted Pink (2)",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4b76d5f2-91cc-4400-adf2-908a1e6cfd1e/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4b76d5f2-91cc-4400-adf2-908a1e6cfd1e/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4b76d5f2-91cc-4400-adf2-908a1e6cfd1e/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "subscriber",
+          "version": 0,
+          "title": "Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/82577ef1-243c-4d05-b905-a38e165952ca/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/82577ef1-243c-4d05-b905-a38e165952ca/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/82577ef1-243c-4d05-b905-a38e165952ca/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 1
+        }
+      ],
+      "name": "maurialvear"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "3d2d2c0c-af5a-463c-92b1-7099cebc5858",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614341963000,
+    "user_type": "",
+    "message": "Tu mamá es tan guatona tan guatona que todavía no termina el chiste",
+    "author": {
+      "display_name": "albertomendozafigueroa",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "705660566",
+      "name": "albertomendozafigueroa"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "3d8d8e94-c4a4-43c9-b9ab-0bda05026e63",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614674206000,
+    "user_type": "",
+    "message": "Tu mamá es tan ***tona que se come los remedios con ketchup",
+    "author": {
+      "display_name": "hito1981",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "1226754485",
+      "name": "hito1981"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "15-18:A.3",
+    "message_id": "2544b402-733d-436b-a9e9-e77a03b0d0fc",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614705081000,
+    "user_type": "",
+    "message": "Tu papá es tan weon que se metió en los chistes de vieja guatona... que estoy haciendo con mi vida Dios mío",
+    "author": {
+      "display_name": "el___Vito",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "619569241",
+      "badges": [
+        {
+          "name": "premium",
+          "version": 1,
+          "title": "Prime Gaming",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://gaming.amazon.com",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "el___vito"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "#FF69B4",
+    "custom_reward_id": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "630cd557-82a2-4b8b-9b22-5292ee8da2f4",
+    "message_type": "text_message",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614717739000,
+    "user_type": "",
+    "message": "tu mamá es tan watona",
+    "author": {
+      "display_name": "chimu_ela",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "464272143",
+      "badges": [
+        {
+          "name": "rplace_2023",
+          "version": 1,
+          "title": "r/place 2023 Cake",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.reddit.com/r/place/",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "chimu_ela"
+    },
+    "action_type": "text_message"
+  },
+  {
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "c800bc3f-0ef8-40b6-a83b-e5376fff5a8b",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745614957743000,
+    "user_type": "",
+    "message": "Tu papá es tan weón que le metieron los cuernos y, en venganza, se acostó con su suegro",
+    "author": {
+      "display_name": "el___Vito",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "619569241",
+      "badges": [
+        {
+          "name": "premium",
+          "version": 1,
+          "title": "Prime Gaming",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://gaming.amazon.com",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "el___vito"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#9ACD32",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "4c6f641b-8bbc-4cec-b02e-d97a703f8394",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615076332000,
+    "user_type": "",
+    "message": "Tus papas son primos",
+    "author": {
+      "display_name": "marto_skt1",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "138596920",
+      "name": "marto_skt1"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "f9c18e0c99702a8c668a211962b5c40b",
+    "colour": "",
+    "is_first_message": false,
+    "flags": "10-14:A.6/I.7/P.7",
+    "message_id": "3e4d569c-4a68-4adb-812b-5df43460a83e",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615214849000,
+    "user_type": "",
+    "message": "una vieja cerda",
+    "author": {
+      "display_name": "daninomass",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "680109685",
+      "name": "daninomass"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "b02ee8158f922905092e7a542937e6be",
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "c2c1edc3-8739-44c3-8eb9-d445d4c43d9f",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615523336000,
+    "user_type": "",
+    "message": "videos de mamas waton4s para asustarnos",
+    "author": {
+      "display_name": "airaarson",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "1044061137",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 3,
+          "title": "3-Month Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 3
+        }
+      ],
+      "name": "airaarson"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "0d0bb83d-ec01-4e71-97e1-3f88d28aef8b",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615973317000,
+    "user_type": "",
+    "message": "pero esa es tu mama comiendo",
+    "author": {
+      "display_name": "PIERA_PIPER",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "848597820",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 18,
+          "title": "1.5-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 25
+        },
+        {
+          "name": "bits",
+          "version": 1000,
+          "title": "cheer 1000",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://help.twitch.tv/s/article/guide-to-cheering-with-bits",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4000e698-d02c-4e0c-b41f-73e41549b514/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4000e698-d02c-4e0c-b41f-73e41549b514/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4000e698-d02c-4e0c-b41f-73e41549b514/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "piera_piper"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "0bee46632d21a8cfa1c5d493db23a57c",
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "2c5793d4-46da-4390-82d8-3d96704c13e0",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745615996306000,
+    "user_type": "",
+    "message": "si lo pone en 0.75 se escucha clarito tu mamá es wat0na",
+    "author": {
+      "display_name": "airaarson",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "1044061137",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 3,
+          "title": "3-Month Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3b201fde-ceb2-4049-9421-60c9acff3088/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 3
+        }
+      ],
+      "name": "airaarson"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "",
+    "is_first_message": false,
+    "flags": "71-74:A.3",
+    "message_id": "7630f324-88ff-4de1-89bf-91d84a6aeb4e",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616161000000,
+    "user_type": "",
+    "message": "su mamá era tan wa to na que en la aparición ocupaba toda la foto. No? weon chao.",
+    "author": {
+      "display_name": "Kushiyoo",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "700446259",
+      "name": "kushiyoo"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "24de1b13c33da9731115a3cc745f3907",
+    "colour": "",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "29cbba81-9167-444e-8942-01175b9c8228",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616678937000,
+    "user_type": "",
+    "message": "la wea feaaa",
+    "author": {
+      "display_name": "javierapsh",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "865975323",
+      "name": "javierapsh"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "e226b38732fc6c29a74aaf60edd9682b",
+    "colour": "#8A2BE2",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "d35c3547-182a-48a1-8008-40e28481a1c9",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616698650000,
+    "user_type": "",
+    "message": "vieja watonaaaa",
+    "author": {
+      "display_name": "m3chasss",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "694473761",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 2,
+          "title": "2-Month Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/77be92fa-470e-451f-8b16-a0ea424bffd5/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/77be92fa-470e-451f-8b16-a0ea424bffd5/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/77be92fa-470e-451f-8b16-a0ea424bffd5/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 2
+        },
+        {
+          "name": "premium",
+          "version": 1,
+          "title": "Prime Gaming",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://gaming.amazon.com",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "m3chasss"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "ff03bc3e201f98d9bad4928ea3b100e8",
+    "colour": "#8A2BE2",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "61b2e71b-4d07-4afd-bb74-7fd922e14794",
+    "is_returning_chatter": false,
+    "channel_id": "517913349",
+    "timestamp": 1745616701045000,
+    "user_type": "",
+    "message": "tumamáeswatona bendicenos",
+    "author": {
+      "display_name": "lefaux1312",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "783175970",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 18,
+          "title": "1.5-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/d5a6c120-edca-499b-a086-7154d89f8a5d/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 36
+        }
+      ],
+      "name": "lefaux1312"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "message": "Este wn habla más weas que la tele cuando se cae la señal, dedícate a otra cosa mejor 😂"
+  },
+  {
+    "message": "Terrible penca este loco, cómo hay gente que lo sigue 😭"
+  },
+  {
+    "message": "Ya po, deja de dar jugo y anda a trabajar mejor, parásito ql"
+  },
+  {
+    "message": "Tu voz me da dolor de guata, parece que tragaste una radio vieja"
+  },
+  {
+    "message": "Este weón es más fome que el pan de ayer, ya me dio sueño tu directo"
+  },
+  {
+    "message": "Mansa perso tenís pa hablar si no sabís ni sumar"
+  },
+  {
+    "message": "Jajaja este loco es el rey del ridículo, sigue nomás que me hacís el día"
+  },
+  {
+    "message": "Este stream vale callampa, puro bla bla y cero contenido"
+  },
+  {
+    "message": "Erís como el confort mojado: no servís pa ná"
+  },
+  {
+    "message": "Más tonto que puerta giratoria, cómo no cachai eso todavía"
+  },
+  {
+    "message": "Hablas como si fueras bacán y no te pesca ni tu sombra"
+  },
+  {
+    "message": "La cagaste pa ser ahueonao, me das vergüenza ajena"
+  },
+  {
+    "message": "Este wn se cree chistoso y da pura pena"
+  },
+  {
+    "message": "Tenís menos brillo que calcetín negro en velorio"
+  },
+  {
+    "message": "Calla mejor, que cada vez que hablai matas una neurona colectiva"
+  },
+  {
+    "message": "¿Quién te dijo que erís divertido? devuélvele la vista al pobre"
+  },
+  {
+    "message": "Erís más fome que abrazo de suegra"
+  },
+  {
+    "message": "Oye flayte ql, saliste del pasaje solo pa dar vergüenza"
+  },
+  {
+    "message": "A vo te faltó más cariño y menos internet"
+  },
+  {
+    "message": "Este ql parece NPC, repite puras weas sin sentido"
+  },
+  {
+    "client_nonce": "e146dedec63063b0f558ff6b99c84b4b",
+    "colour": "#0000FF",
+    "is_first_message": false,
+    "flags": "5-13:A.5",
+    "message_id": "d8853ca8-d5fb-4f7b-b510-bee7a7805424",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264038046000,
+    "user_type": "",
+    "message": "wnes imbeciles fdw",
+    "author": {
+      "display_name": "benjaflorxs",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "272794695",
+      "badges": [
+        {
+          "name": "rplace_2023",
+          "version": 1,
+          "title": "r/place 2023 Cake",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.reddit.com/r/place/",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "benjaflorxs"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "bbd38e63f93d95fa81e26a3c56494d25",
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "bc441291-d78d-40c2-bf41-4847feb4b53c",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264039443000,
+    "user_type": "",
+    "message": "asi son los de la U, puros ladrones",
+    "author": {
+      "display_name": "BnJam0n",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "224886546",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 18,
+          "title": "1.5-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/23a1624d-5949-41ce-b30d-e4528dea3037/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/23a1624d-5949-41ce-b30d-e4528dea3037/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/23a1624d-5949-41ce-b30d-e4528dea3037/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 18
+        }
+      ],
+      "name": "bnjam0n"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "c62248d811f3d28aae3590cdda1b4a1b",
+    "colour": "#0000FF",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "43487263-3bcb-4434-bba8-beaca411dfe0",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264085213000,
+    "user_type": "",
+    "message": "salgan a buscar pega paquetes kls",
+    "author": {
+      "display_name": "benjaflorxs",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "272794695",
+      "badges": [
+        {
+          "name": "rplace_2023",
+          "version": 1,
+          "title": "r/place 2023 Cake",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.reddit.com/r/place/",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "benjaflorxs"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#008000",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "731eda51-c360-45a4-a79b-2948e8251178",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264172353000,
+    "user_type": "mod",
+    "message": "no parai de mentir wn",
+    "author": {
+      "display_name": "ttommygabriel",
+      "is_moderator": true,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "441142510",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "subscriber",
+          "version": 24,
+          "title": "2-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 29
+        },
+        {
+          "name": "bits_leader",
+          "version": 2,
+          "title": "Bits Leader 2",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://bits.twitch.tv",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "ttommygabriel"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "71179f5d6ba9a2a9b330e04f9bfd21a8",
+    "colour": "#00FF7F",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "90f72ad4-965c-4ef1-aa82-752fe7f285ff",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264337883000,
+    "user_type": "",
+    "message": "juliano sosa puro wn",
+    "author": {
+      "display_name": "alvaro420IQ",
+      "is_moderator": false,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "67509845",
+      "badges": [
+        {
+          "name": "subscriber",
+          "version": 12,
+          "title": "1-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/cbd957bb-592a-408a-8adf-706671951be0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/cbd957bb-592a-408a-8adf-706671951be0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/cbd957bb-592a-408a-8adf-706671951be0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 14
+        },
+        {
+          "name": "twitch_recap_2023",
+          "version": 1,
+          "title": "Twitch Recap 2023",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://twitch-web.app.link/e/twitch-recap",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4d9e9812-ba9b-48a6-8690-13f3f338ee65/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4d9e9812-ba9b-48a6-8690-13f3f338ee65/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/4d9e9812-ba9b-48a6-8690-13f3f338ee65/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "alvaro420iq"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "colour": "#008000",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "7083beee-0449-4188-bb36-fec4bbd3d126",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264488580000,
+    "user_type": "mod",
+    "message": "ke hablai como vio xala kla",
+    "author": {
+      "display_name": "ttommygabriel",
+      "is_moderator": true,
+      "is_subscriber": true,
+      "is_turbo": false,
+      "id": "441142510",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        },
+        {
+          "name": "subscriber",
+          "version": 24,
+          "title": "2-Year Subscriber",
+          "clickAction": "SUBSCRIBE",
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/ee485074-e603-454e-802f-75e3d40719a3/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ],
+          "months": 29
+        },
+        {
+          "name": "bits_leader",
+          "version": 2,
+          "title": "Bits Leader 2",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://bits.twitch.tv",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/f04baac7-9141-4456-a0e7-6301bcc34138/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "ttommygabriel"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  }, {
+    "client_nonce": "54cbf448c5ad70338f1b8a4d940caaeb",
+    "colour": "#FF0000",
+    "is_first_message": false,
+    "flags": "7-11:S.5",
+    "message_id": "cb302c3d-b603-46a6-aa54-9d3eac5eed45",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747263923033000,
+    "user_type": "",
+    "message": "polera culia fea",
+    "author": {
+      "display_name": "jonathandavis1",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "595887941",
+      "badges": [
+        {
+          "name": "bits",
+          "version": 100,
+          "title": "cheer 100",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://bits.twitch.tv",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/09d93036-e7ce-431c-9a9e-7044297133f2/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/09d93036-e7ce-431c-9a9e-7044297133f2/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/09d93036-e7ce-431c-9a9e-7044297133f2/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "jonathandavis1"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+  {
+    "client_nonce": "6a43950b334aeb1f3ceebfb525bbed02",
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "56-63:A.6/P.6",
+    "message_id": "51f478c0-9eea-458c-b8a8-a6a936dc0eca",
+    "reply_thread_parent_display_name": "elmismisimowarisnake",
+    "reply_thread_parent_msg_id": "015fc46b-e4cf-4d82-8952-da61e63785a5",
+    "reply_thread_parent_user_id": "153920248",
+    "reply_thread_parent_user_login": "elmismisimowarisnake",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264045846000,
+    "user_type": "mod",
+    "message": "@nomeinteresanadavieja pero si ellos mismos dicen q los pendejos qls roban pa puro grabarse y tirarlo a las redes XD eri muy aweonao",
+    "in_reply_to": {
+      "message": "@elmismisimowarisnake qlao wn equisde",
+      "message_id": "bab260f8-0a99-4079-ac65-b36973e6335c",
+      "author": {
+        "display_name": "nomeinteresanadavieja",
+        "id": "1243165740",
+        "name": "nomeinteresanadavieja"
+      }
+    },
+    "author": {
+      "display_name": "elmismisimowarisnake",
+      "is_moderator": true,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "153920248",
+      "badges": [
+        {
+          "name": "moderator",
+          "version": 1,
+          "title": "Moderator",
+          "clickAction": null,
+          "clickURL": null,
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "elmismisimowarisnake"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  },
+    {
+    "client_nonce": "4303caba1dd27ac4aba53f442c9b0f0f",
+    "colour": "#FF69B4",
+    "is_first_message": false,
+    "flags": "",
+    "message_id": "588a3280-3f31-4896-a507-9a1dabef56bd",
+    "is_returning_chatter": false,
+    "channel_id": "31950874",
+    "timestamp": 1747264125905000,
+    "user_type": "",
+    "message": "YIA",
+    "author": {
+      "display_name": "jorgebrkn",
+      "is_moderator": false,
+      "is_subscriber": false,
+      "is_turbo": false,
+      "id": "478413450",
+      "badges": [
+        {
+          "name": "rplace_2023",
+          "version": 1,
+          "title": "r/place 2023 Cake",
+          "clickAction": "VISIT_URL",
+          "clickURL": "https://www.reddit.com/r/place/",
+          "icons": [
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/1",
+              "width": 18,
+              "height": 18,
+              "id": "18x18"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/2",
+              "width": 36,
+              "height": 36,
+              "id": "36x36"
+            },
+            {
+              "url": "https://static-cdn.jtvnw.net/badges/v1/e33e0c67-c380-4241-828a-099c46e51c66/3",
+              "width": 72,
+              "height": 72,
+              "id": "72x72"
+            }
+          ]
+        }
+      ],
+      "name": "jorgebrkn"
+    },
+    "action_type": "text_message",
+    "message_type": "text_message"
+  }
+]
