@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, Response
-from moderator import moderate_message
+from flask import Flask, render_template, request, Response, jsonify
 import socket, threading, json, datetime, re
+import requests
 
 app = Flask(__name__)
 
@@ -8,10 +8,37 @@ HOST = "irc.chat.twitch.tv"
 PORT = 6667
 NICK = "justinfan12345"  # Anonymous
 TOKEN = "oauth:"
+MODERATION_API_URL = "http://localhost:7012/moderate"  # URL of the moderation service
 chat_lines = []
 current_channel = None
 chat_thread = None
 stop_event = threading.Event()
+selected_reasons = set(['spam', 'hate_speech', 'harassment', 'inappropriate', 'self_promotion'])
+
+def moderate_message(message):
+    """
+    Call the moderation API to check a message
+    Returns (approved, reason) tuple
+    """
+    try:
+        response = requests.post(
+            MODERATION_API_URL,
+            json={"mensaje": message},
+            timeout=2  # 2 second timeout
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["status"] == "success":
+                return data["approved"], data["reason"]
+        
+        # If there's any error, approve the message to avoid blocking legitimate content
+        print(f"Moderation API error: {response.text}")
+        return True, "appropriate"
+        
+    except Exception as e:
+        print(f"Error calling moderation API: {str(e)}")
+        return True, "appropriate"
 
 def connect_to_chat(channel, stop_event):
     global chat_lines
@@ -35,18 +62,28 @@ def connect_to_chat(channel, stop_event):
                     timestamp = datetime.datetime.now().strftime('%H:%M:%S')
 
                     approved, reason = moderate_message(message)
-                    chat_lines.append({
-                        "text": message,
-                        "moderated": not approved,
-                        "reason": reason,
-                        "username": username,
-                        "timestamp": timestamp
-                    })
-        except:
+                    # Only add message if it's not moderated or if its reason is in selected_reasons
+                    if not approved and reason in selected_reasons:
+                        chat_lines.append({
+                            "text": message,
+                            "moderated": True,
+                            "reason": reason,
+                            "username": username,
+                            "timestamp": timestamp
+                        })
+                    elif approved:
+                        chat_lines.append({
+                            "text": message,
+                            "moderated": False,
+                            "reason": None,
+                            "username": username,
+                            "timestamp": timestamp
+                        })
+        except Exception as e:
+            print(f"Error in chat connection: {str(e)}")
             break
 
     sock.close()
-
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -71,6 +108,14 @@ def index():
 
     return render_template("index.html", channel=None)
 
+@app.route('/update_reasons', methods=['POST'])
+def update_reasons():
+    global selected_reasons
+    data = request.get_json()
+    if data and 'reasons' in data:
+        selected_reasons = set(data['reasons'])
+        return jsonify({"status": "success", "reasons": list(selected_reasons)})
+    return jsonify({"status": "error", "message": "Invalid request"}), 400
 
 @app.route('/chat')
 def stream_chat():
@@ -84,4 +129,4 @@ def stream_chat():
     return Response(stream(), mimetype='text/event-stream')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)  # Run on port 5000 to avoid conflict with moderation service

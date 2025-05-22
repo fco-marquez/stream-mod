@@ -3,6 +3,7 @@
 <head>
     <title>StreamMod</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
 <body>
     <h1>Stream-MOD</h1>
@@ -13,8 +14,26 @@
     </form>
 
     {% if channel %}
-        <h2>Chat en vivo de {{ channel }}</h2>
-        <div id="chat-box" style="border:1px solid black; padding:10px; height:300px; overflow-y:scroll;"></div>
+        <div class="stream-container">
+            <div class="stream-column">
+                <h2>Stream de {{ channel }}</h2>
+                <div id="twitch-player"></div>
+            </div>
+            <div class="chat-column">
+                <h2>Chat Moderado</h2>
+                <div class="moderation-panel">
+                    <h3>Razones de Moderación</h3>
+                    <div class="reason-filters">
+                        <label><input type="checkbox" name="reason" value="spam" checked> Spam</label>
+                        <label><input type="checkbox" name="reason" value="hate_speech" checked> Discurso de Odio</label>
+                        <label><input type="checkbox" name="reason" value="harassment" checked> Acoso</label>
+                        <label><input type="checkbox" name="reason" value="inappropriate" checked> Contenido Inapropiado</label>
+                        <label><input type="checkbox" name="reason" value="self_promotion" checked> Autopromoción</label>
+                    </div>
+                </div>
+                <div id="chat-box" class="chat-box"></div>
+            </div>
+        </div>
         <!-- Modal -->
         <div id="message-modal" class="modal hidden">
             <div class="modal-content">
@@ -28,9 +47,28 @@
             </div>
         </div>
     {% endif %}
-{% if channel %}
-<script lang="javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
-{% endif %}
 
+    {% if channel %}
+    <script>
+        // Initialize Twitch player
+        new Twitch.Player("twitch-player", {
+            channel: "{{ channel }}",
+            width: "100%",
+            height: 500,
+            layout: "video",
+            autoplay: true
+        });
+
+        // Initialize moderation reasons
+        window.selectedReasons = new Set(['spam', 'hate_speech', 'harassment', 'inappropriate', 'self_promotion']);
+        
+        document.querySelectorAll('.reason-filters input').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                window.updateSelectedReasons(e.target.value, e.target.checked);
+            });
+        });
+    </script>
+    <script lang="javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    {% endif %}
 </body>
 </html>

@@ -9,7 +9,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     url = sys.argv[1]
-    output_file = 'twitch_chat2.json'
+    output_file = 'twitch_chat3.json'
 
     # Verificamos si el archivo ya existe
     file_exists = os.path.isfile(output_file)
