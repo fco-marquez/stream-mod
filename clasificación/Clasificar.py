@@ -20,7 +20,7 @@ else:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 # Archivo con los mensajes a clasificar
-input_file = 'Prueba.json'
+input_file = 'twitch_chat3.json'
 
 # Cargar todos los mensajes
 with open(input_file, 'r', encoding='utf-8') as f:
