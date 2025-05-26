@@ -4,12 +4,8 @@ import torch
 import numpy as np
 from torch import nn
 import os
-import requests
-from pathlib import Path
-import tempfile
 import shutil
 import hashlib
-from tqdm import tqdm
 
 # Define moderation categories and their labels (updated to match fine-tuned model)
 MODERATION_CATEGORIES = {

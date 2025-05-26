@@ -118,12 +118,9 @@ button:hover {
 .stream-column {
     flex: 2;
     min-width: 0;
-}
-
-.chat-column {
-    flex: 1;
-    min-width: 300px;
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 420px); /* Account for chat column width + gap */
 }
 
 #twitch-player {
@@ -131,54 +128,159 @@ button:hover {
     background-color: #000;
     border-radius: 10px;
     overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-column {
+    flex: 0 0 400px; /* Fixed width instead of flex: 1 */
+    min-width: 400px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: #1f1f23;
+    border-radius: 10px;
+    border: 1px solid #3f3f46;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.chat-column h2 {
+    padding: 1rem;
+    margin: 0;
+    border-bottom: 1px solid #3f3f46;
+    font-size: 1.2rem;
 }
 
 .chat-box {
-    border: 1px solid #3f3f46;
-    border-radius: 10px;
-    background-color: #1f1f23;
+    flex: 1;
     padding: 1rem;
     overflow-y: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    min-height: 500px;
+    max-height: 500px;
+    background-color: #1f1f23;
+    border-radius: 0 0 10px 10px;
+}
+
+.chat-box p {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background-color: #27272a;
+    border-radius: 5px;
+    color: #e4e4e7;
+    word-wrap: break-word;
+}
+
+.chat-box p .username {
+    color: #a78bfa;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.chat-box p .timestamp {
+    color: #71717a;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+}
+
+.chat-box p.blurred {
+    filter: blur(5px);
+    background-color: #3f3f46;
+    color: transparent;
+    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+    transition: filter 0.2s ease;
+    cursor: pointer;
+}
+
+.chat-box p.blurred:hover {
+    filter: blur(3px);
+}
+
+.chat-box:empty::before {
+    content: "No hay mensajes aún...";
+    display: block;
+    text-align: center;
+    color: #71717a;
+    padding: 2rem;
+    font-style: italic;
+}
+
+.moderation-container {
+    max-width: 1600px;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
 .moderation-panel {
     background-color: #1f1f23;
     border: 1px solid #3f3f46;
     border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .moderation-panel h3 {
     color: #a78bfa;
-    margin: 0 0 0.5rem 0;
-    font-size: 1rem;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 .reason-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    padding: 15px;
+    background-color: #27272a;
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
 .reason-filters label {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background-color: #27272a;
-    border-radius: 4px;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: #1f1f23;
+    border: 1px solid #3f3f46;
+    border-radius: 6px;
     cursor: pointer;
+    transition: all 0.2s ease;
+    color: #e4e4e7;
     font-size: 0.9rem;
-    transition: background-color 0.2s ease;
 }
 
 .reason-filters label:hover {
-    background-color: #3f3f46;
+    background-color: #2e2e32;
+    border-color: #a78bfa;
 }
 
 .reason-filters input[type="checkbox"] {
     margin: 0;
     cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: #a78bfa;
+}
+
+.reason-filters input[type="checkbox"]:checked + span {
+    color: #a78bfa;
+}
+
+.reason-filters label:has(input[type="checkbox"]:checked) {
+    background-color: #2e2e32;
+    border-color: #a78bfa;
+}
+
+.twitch-error {
+    background-color: #2e2e32;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    color: #ef4444;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 1rem 0;
 }
