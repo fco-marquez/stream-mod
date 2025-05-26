@@ -1,2 +1,10 @@
 venv
 *.json
+.env
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.bin.index.json
+*.bin.index.json.index
+vocab.txt
