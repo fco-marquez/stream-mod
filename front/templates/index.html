@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>StreamMod</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
@@ -21,17 +22,25 @@
             </div>
             <div class="chat-column">
                 <h2>Chat Moderado</h2>
-                <div class="moderation-panel">
-                    <h3>Razones de Moderación</h3>
-                    <div class="reason-filters">
-                        <label><input type="checkbox" name="reason" value="spam" checked> Spam</label>
-                        <label><input type="checkbox" name="reason" value="hate_speech" checked> Discurso de Odio</label>
-                        <label><input type="checkbox" name="reason" value="harassment" checked> Acoso</label>
-                        <label><input type="checkbox" name="reason" value="inappropriate" checked> Contenido Inapropiado</label>
-                        <label><input type="checkbox" name="reason" value="self_promotion" checked> Autopromoción</label>
-                    </div>
-                </div>
                 <div id="chat-box" class="chat-box"></div>
+            </div>
+        </div>
+        <div class="moderation-container">
+            <div class="moderation-panel">
+                <h3>Razones de Moderación</h3>
+                <div class="reason-filters">
+                    <label><input type="checkbox" name="reason" value="appropriate" checked><span>Apropiado</span></label>
+                    <label><input type="checkbox" name="reason" value="hate_speech" checked><span>Discurso de Odio</span></label>
+                    <label><input type="checkbox" name="reason" value="harassment" checked><span>Acoso</span></label>
+                    <label><input type="checkbox" name="reason" value="inappropriate" checked><span>Contenido Inapropiado</span></label>
+                    <label><input type="checkbox" name="reason" value="spam" checked><span>Spam</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_5" checked><span>Categoría 5</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_6" checked><span>Categoría 6</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_7" checked><span>Categoría 7</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_8" checked><span>Categoría 8</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_9" checked><span>Categoría 9</span></label>
+                    <label><input type="checkbox" name="reason" value="categoria_10" checked><span>Categoría 10</span></label>
+                </div>
             </div>
         </div>
         <!-- Modal -->
@@ -50,17 +59,29 @@
 
     {% if channel %}
     <script>
-        // Initialize Twitch player
-        new Twitch.Player("twitch-player", {
+        // Initialize Twitch player with secure options
+        var options = {
             channel: "{{ channel }}",
             width: "100%",
             height: 500,
             layout: "video",
-            autoplay: true
-        });
+            autoplay: true,
+            parent: window.location.hostname
+        };
+        
+        // Create player only if we're on a secure context or localhost
+        if (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            new Twitch.Player("twitch-player", options);
+        } else {
+            document.getElementById("twitch-player").innerHTML = 
+                '<div class="twitch-error">El reproductor de Twitch requiere una conexión segura (HTTPS) o localhost</div>';
+        }
 
-        // Initialize moderation reasons
-        window.selectedReasons = new Set(['spam', 'hate_speech', 'harassment', 'inappropriate', 'self_promotion']);
+        // Initialize moderation reasons with all categories
+        window.selectedReasons = new Set([
+            'appropriate', 'hate_speech', 'harassment', 'inappropriate', 'spam',
+            'categoria_5', 'categoria_6', 'categoria_7', 'categoria_8', 'categoria_9', 'categoria_10'
+        ]);
         
         document.querySelectorAll('.reason-filters input').forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
