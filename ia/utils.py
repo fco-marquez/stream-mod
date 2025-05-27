@@ -1,5 +1,5 @@
 import re
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel, BertForSequenceClassification
 import torch
 import numpy as np
 from torch import nn
@@ -9,31 +9,28 @@ import hashlib
 
 # Define moderation categories and their labels (updated to match fine-tuned model)
 MODERATION_CATEGORIES = {
-    0: "appropriate",      # No moderation needed
-    1: "hate_speech",     # Hate speech or discriminatory content
-    2: "harassment",      # Harassment or bullying
-    3: "inappropriate",   # Inappropriate content
-    4: "spam",           # Spam or self-promotion
-    5: "categoria_5",    # Additional categories from fine-tuned model
-    6: "categoria_6",
-    7: "categoria_7",
-    8: "categoria_8",
-    9: "categoria_9",
-    10: "categoria_10"
+    0: 'Garabatos no peyorativos',
+    1: 'Spam',
+    2: 'Racismo/Xenofobia',
+    3: 'Homofobia',
+    4: 'Contenido sexual',
+    5: 'Insulto',
+    6: 'Machismo/Misoginia/Sexismo',
+    7: 'Divulgación de información personal (doxxing)',
+    8: 'Otros',
+    9: 'Amenaza/acoso violento',
+    10: 'No baneable'
 }
 
-class WeightedLossModel(nn.Module):
-    def __init__(self, base_model, num_labels, class_weights=None):
-        super().__init__()
-        self.bert = base_model
-        self.classifier = nn.Linear(base_model.config.hidden_size, num_labels)
+class WeightedLossModel(BertForSequenceClassification):
+    def _init_(self, config, class_weights=None):
+        super()._init_(config)
         self.class_weights = class_weights
         
-    def forward(self, **inputs):
-        outputs = self.bert(**inputs)
-        cls_output = outputs.last_hidden_state[:, 0, :]
-        logits = self.classifier(cls_output)
-        return logits
+    def compute_loss(self, model_output, labels):
+        logits = model_output.logits
+        loss_fct = torch.nn.CrossEntropyLoss(weight=self.class_weights)
+        return loss_fct(logits,labels)
 
 def get_file_hash(filepath):
     """Calculate SHA256 hash of a file"""
@@ -119,8 +116,7 @@ def download_model_files(model_dir):
         else:
             raise Exception(f"Failed to download {filename}")
 
-def cargar_modelo(model_dir="modelo_final_guardado", 
-                 model_name="dccuchile/tulio-chilean-spanish-bert"):
+def cargar_modelo(model_dir="modelo_final_guardado"):
     """
     Load the fine-tuned Tulio BERT model and tokenizer for moderation
     
@@ -136,12 +132,12 @@ def cargar_modelo(model_dir="modelo_final_guardado",
         
         # Load base model and tokenizer
         print("Loading base model and tokenizer...")
-        base_model = AutoModel.from_pretrained(model_name)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        base_model = AutoModel.from_pretrained(model_dir)
+        tokenizer = AutoTokenizer.from_pretrained(model_dir)
         
         # Create classification head with 11 classes
         print("Creating classification head...")
-        model = WeightedLossModel(base_model, num_labels=len(MODERATION_CATEGORIES))
+        model = WeightedLossModel.from_pretrained(model_dir)
         
         # Load fine-tuned weights
         print(f"Loading fine-tuned weights from {model_dir}...")
@@ -179,7 +175,7 @@ def cargar_modelo(model_dir="modelo_final_guardado",
         print(f"Error loading model: {str(e)}")
         raise
 
-def get_prediction(text, model, tokenizer, threshold=0.3):
+def get_prediction(text, model, tokenizer):
     """
     Get moderation prediction and reason for a message
     
@@ -187,7 +183,6 @@ def get_prediction(text, model, tokenizer, threshold=0.3):
     text (str): Message to moderate
     model: The loaded BERT model with classification head
     tokenizer: The loaded tokenizer
-    threshold (float): Confidence threshold for moderation
     
     Returns:
     tuple: (approved: bool, reason: str)
@@ -206,32 +201,15 @@ def get_prediction(text, model, tokenizer, threshold=0.3):
     model.eval()  # Set to evaluation mode
     with torch.no_grad():
         try:
-            logits = model(**inputs)  # Shape: [1, num_labels]
-            probabilities = torch.softmax(logits, dim=1)
-            prediction = torch.argmax(probabilities, dim=1).item()
-            confidence = probabilities[0][prediction].item()
-            
-            # If confidence is below threshold, consider it appropriate
-            if confidence < threshold:
-                return True, "appropriate"
+            outputs = model(**inputs)  # Get model outputs
+            logits = outputs.logits  # Extract logits from outputs
+            probabilities = torch.softmax(logits, dim=1)  # Apply softmax to logits
+            prediction = torch.argmax(probabilities, dim=1).item()  # Get prediction from probabilities
             
             # Get the reason from our categories
             reason = MODERATION_CATEGORIES[prediction]
             
-            # Message is approved only if it's categorized as appropriate
-            # For categories 5-10, we'll consider them as requiring moderation
-            # You can adjust this logic based on your specific needs
-            approved = reason == "appropriate"
-            
-            # Map additional categories to main moderation categories if needed
-            if prediction >= 5:
-                # You can customize this mapping based on your needs
-                if prediction in [5, 6]:  # Example mapping
-                    reason = "inappropriate"
-                elif prediction in [7, 8]:
-                    reason = "hate_speech"
-                else:
-                    reason = "harassment"
+            approved = reason == 'No baneable'
             
             return approved, reason
             
@@ -239,7 +217,7 @@ def get_prediction(text, model, tokenizer, threshold=0.3):
             print(f"Error in prediction: {str(e)}")
             return True, "appropriate"  # Default to approved on error
 
-def moderate_message(text, model, tokenizer, threshold=0.2):
+def moderate_message(text, model, tokenizer):
     """
     Wrapper function to moderate a message using the BERT model
     
@@ -255,7 +233,7 @@ def moderate_message(text, model, tokenizer, threshold=0.2):
     try:
         # Preprocess the message
         text = preprocesar_mensaje(text)
-        return get_prediction(text, model, tokenizer, threshold)
+        return get_prediction(text, model, tokenizer)
     except Exception as e:
         print(f"Error in moderation: {str(e)}")
         # In case of error, approve the message to avoid blocking legitimate content

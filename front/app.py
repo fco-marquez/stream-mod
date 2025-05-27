@@ -13,7 +13,19 @@ chat_lines = []
 current_channel = None
 chat_thread = None
 stop_event = threading.Event()
-selected_reasons = set(['spam', 'hate_speech', 'harassment', 'inappropriate', 'self_promotion'])
+selected_reasons = set([
+    'Garabatos no peyorativos',
+    'Spam',
+    'Racismo/Xenofobia',
+    'Homofobia',
+    'Contenido sexual',
+    'Insulto',
+    'Machismo/Misoginia/Sexismo',
+    'Divulgación de información personal (doxxing)',
+    'Otros',
+    'Amenaza/acoso violento',
+    'No baneable'
+])
 
 def moderate_message(message):
     """
@@ -62,23 +74,17 @@ def connect_to_chat(channel, stop_event):
                     timestamp = datetime.datetime.now().strftime('%H:%M:%S')
 
                     approved, reason = moderate_message(message)
-                    # Only add message if it's not moderated or if its reason is in selected_reasons
-                    if not approved and reason in selected_reasons:
-                        chat_lines.append({
-                            "text": message,
-                            "moderated": True,
-                            "reason": reason,
-                            "username": username,
-                            "timestamp": timestamp
-                        })
-                    elif approved:
-                        chat_lines.append({
-                            "text": message,
-                            "moderated": False,
-                            "reason": None,
-                            "username": username,
-                            "timestamp": timestamp
-                        })
+                    # Always add the message, but mark it as moderated if:
+                    # 1. It's not approved AND
+                    # 2. Its reason is in the selected reasons
+                    is_moderated = not approved and reason in selected_reasons
+                    chat_lines.append({
+                        "text": message,
+                        "moderated": is_moderated,
+                        "reason": reason if not approved else None,
+                        "username": username,
+                        "timestamp": timestamp
+                    })
         except Exception as e:
             print(f"Error in chat connection: {str(e)}")
             break
@@ -127,6 +133,3 @@ def stream_chat():
                     yield f"data: {json.dumps(msg)}\n\n"
                 prev_len = len(chat_lines)
     return Response(stream(), mimetype='text/event-stream')
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)  # Run on port 5000 to avoid conflict with moderation service
