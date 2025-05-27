@@ -29,17 +29,17 @@
             <div class="moderation-panel">
                 <h3>Razones de Moderación</h3>
                 <div class="reason-filters">
-                    <label><input type="checkbox" name="reason" value="appropriate" checked><span>Apropiado</span></label>
-                    <label><input type="checkbox" name="reason" value="hate_speech" checked><span>Discurso de Odio</span></label>
-                    <label><input type="checkbox" name="reason" value="harassment" checked><span>Acoso</span></label>
-                    <label><input type="checkbox" name="reason" value="inappropriate" checked><span>Contenido Inapropiado</span></label>
-                    <label><input type="checkbox" name="reason" value="spam" checked><span>Spam</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_5" checked><span>Categoría 5</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_6" checked><span>Categoría 6</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_7" checked><span>Categoría 7</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_8" checked><span>Categoría 8</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_9" checked><span>Categoría 9</span></label>
-                    <label><input type="checkbox" name="reason" value="categoria_10" checked><span>Categoría 10</span></label>
+                    <label><input type="checkbox" name="reason" value="Garabatos no peyorativos" checked><span>Garabatos no peyorativos</span></label>
+                    <label><input type="checkbox" name="reason" value="Spam" checked><span>Spam</span></label>
+                    <label><input type="checkbox" name="reason" value="Racismo/Xenofobia" checked><span>Racismo/Xenofobia</span></label>
+                    <label><input type="checkbox" name="reason" value="Homofobia" checked><span>Homofobia</span></label>
+                    <label><input type="checkbox" name="reason" value="Contenido sexual" checked><span>Contenido sexual</span></label>
+                    <label><input type="checkbox" name="reason" value="Insulto" checked><span>Insulto</span></label>
+                    <label><input type="checkbox" name="reason" value="Machismo/Misoginia/Sexismo" checked><span>Machismo/Misoginia/Sexismo</span></label>
+                    <label><input type="checkbox" name="reason" value="Divulgación de información personal (doxxing)" checked><span>Divulgación de información personal (doxxing)</span></label>
+                    <label><input type="checkbox" name="reason" value="Otros" checked><span>Otros</span></label>
+                    <label><input type="checkbox" name="reason" value="Amenaza/acoso violento" checked><span>Amenaza/acoso violento</span></label>
+                    <label><input type="checkbox" name="reason" value="No baneable" checked><span>No baneable</span></label>
                 </div>
             </div>
         </div>
@@ -79,8 +79,17 @@
 
         // Initialize moderation reasons with all categories
         window.selectedReasons = new Set([
-            'appropriate', 'hate_speech', 'harassment', 'inappropriate', 'spam',
-            'categoria_5', 'categoria_6', 'categoria_7', 'categoria_8', 'categoria_9', 'categoria_10'
+            'Garabatos no peyorativos',
+            'Spam',
+            'Racismo/Xenofobia',
+            'Homofobia',
+            'Contenido sexual',
+            'Insulto',
+            'Machismo/Misoginia/Sexismo',
+            'Divulgación de información personal (doxxing)',
+            'Otros',
+            'Amenaza/acoso violento',
+            'No baneable'
         ]);
         
         document.querySelectorAll('.reason-filters input').forEach(checkbox => {
