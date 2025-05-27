@@ -1,12 +1,29 @@
 import json
 import os
 import sys
+from collections import deque
 
-# Para captura de tecla sin enter
+# Mapeo de teclas a categorías
+category_map = {
+    '0': 'Garabatos no peyorativos',
+    '1': 'Spam',
+    '2': 'Racismo/Xenofobia',
+    '3': 'Homofobia',
+    '4': 'Contenido sexual',
+    '5': 'Insulto',
+    '6': 'Machismo/Misoginia/Sexismo',
+    '7': 'Divulgación de información personal (doxxing)',
+    '8': 'Otros',
+    '9': 'Amenaza/acoso violento',
+    'enter': 'No baneable'
+}
+
+# Captura de tecla sin enter
 if os.name == 'nt':
     import msvcrt
     def get_key():
-        return msvcrt.getch().decode('utf-8')
+        key = msvcrt.getch().decode('utf-8')
+        return '\n' if key == '\r' else key  # Normalizar Enter en Windows
 else:
     import tty
     import termios
@@ -15,45 +32,93 @@ else:
         old = termios.tcgetattr(fd)
         try:
             tty.setraw(fd)
-            return sys.stdin.read(1)
+            key = sys.stdin.read(1)
+            return '\n' if key == '\r' else key  # Normalizar Enter en Unix
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
-# Archivo con los mensajes a clasificar
-input_file = 'twitch_chat3.json'
+# Verificar argumento de entrada
+if len(sys.argv) < 2:
+    print("Error: Debes proporcionar el nombre del archivo JSON como argumento.")
+    print("Uso: python script.py <archivo_entrada.json>")
+    sys.exit(1)
 
-# Cargar todos los mensajes
+input_file = sys.argv[1]
+
+# Cargar mensajes como deque
 with open(input_file, 'r', encoding='utf-8') as f:
-    messages = json.load(f)
+    messages = deque(json.load(f))
 
-print("Clasifica cada mensaje con una tecla del 0 al 9 (presiona 'q' para salir)\n")
+print("Clasifica cada mensaje (ENTER para No baneable, 'd' para eliminar última, 'q' para salir)\n")
 
-for msg in messages:
+history = []  # Para trackear asignaciones
+
+while messages:
+    msg = messages.popleft()
+    
     print("\n----------------------------------")
     print(f"{msg.get('author', {}).get('name', '???')}: {msg.get('message', '')}")
-    print("Clasificación [0-9] → ", end='', flush=True)
+    print("Clasificación → ", end='', flush=True)
 
     key = get_key()
+    
+    # Salir
     if key == 'q':
         print("\nSaliendo...")
         break
-    if key not in '0123456789':
+        
+    # Eliminar última asignación
+    elif key == 'd':
+        if history:
+            last_msg, last_category = history.pop()
+            
+            # Remover de archivo
+            if os.path.exists(last_category):
+                with open(last_category, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                if data and data[-1] == last_msg:
+                    data.pop()
+                    with open(last_category, 'w', encoding='utf-8') as f:
+                        json.dump(data, f, ensure_ascii=False, indent=2)
+                        
+                # Reinsertar mensajes
+                messages.appendleft(msg)         # Mensaje actual
+                messages.appendleft(last_msg)   # Mensaje desasignado
+                print(f"\n\n---- Categorización eliminada: ---- \nMensaje: {last_msg.get('author', {}).get('name', '???')}: {last_msg.get('message', '')}\nCategoría: {last_category.split('_')[1][0]} - {category_map.get(last_category.split('_')[1][0], 'No baneable')}")
+            else:
+                print("\nError: Archivo no encontrado")
+        else:
+            print("\nNo hay asignaciones previas")
+            messages.append(msg)
+        continue
+    
+    # Determinar categoría
+    if key in ['\n']:  # Enter
+        category_number = '10'
+        category_name = category_map['enter']
+    elif key in category_map:
+        category_number = key
+        category_name = category_map[key]
+    else:
         print(f"\nTecla inválida: {key}")
+        messages.appendleft(msg)
         continue
 
-    category_file = f'categoria_{key}.json'
-
-    # Si ya existe el archivo, lo cargamos; si no, lo creamos nuevo
+    # Guardar en categoría
+    category_file = f'categoria_{category_number}.json'
+    
+    # Cargar o crear archivo
     if os.path.exists(category_file):
         with open(category_file, 'r', encoding='utf-8') as cf:
             data = json.load(cf)
     else:
         data = []
-
+    
     data.append(msg)
-
-    # Guardar el mensaje en el archivo correspondiente
+    
+    # Escribir archivo
     with open(category_file, 'w', encoding='utf-8') as cf:
         json.dump(data, cf, ensure_ascii=False, indent=2)
-
-    print(f"[Guardado en categoría {key}]")
+    
+    history.append((msg, category_file))
+    print(f"[{category_name}]")
