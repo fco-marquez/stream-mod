@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, Response, jsonify
 import socket, threading, json, datetime, re
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -8,11 +9,14 @@ HOST = "irc.chat.twitch.tv"
 PORT = 6667
 NICK = "justinfan12345"  # Anonymous
 TOKEN = "oauth:"
-MODERATION_API_URL = "http://localhost:7012/moderate"  # URL of the moderation service
+MODERATION_API_URL = "http://localhost:7012/moderate"
+MODERATED_MESSAGES_FILE = "moderated_messages.json"
+
 chat_lines = []
 current_channel = None
 chat_thread = None
 stop_event = threading.Event()
+moderated_messages = set()  # Store moderated message IDs
 selected_reasons = set([
     'Garabatos no peyorativos',
     'Spam',
@@ -26,6 +30,46 @@ selected_reasons = set([
     'Amenaza/acoso violento',
     'No baneable'
 ])
+
+def load_moderated_messages():
+    """Load previously moderated messages from file"""
+    if os.path.exists(MODERATED_MESSAGES_FILE):
+        try:
+            with open(MODERATED_MESSAGES_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return set(data.get('messages', []))
+        except Exception as e:
+            print(f"Error loading moderated messages: {e}")
+    return set()
+
+def save_moderated_message(message_id, username, text, reason):
+    """Save a moderated message to the training file"""
+    try:
+        # Load existing data
+        if os.path.exists(MODERATED_MESSAGES_FILE):
+            with open(MODERATED_MESSAGES_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        else:
+            data = {'messages': []}
+        
+        # Add new message
+        data['messages'].append({
+            'id': message_id,
+            'username': username,
+            'text': text,
+            'reason': reason,
+            'timestamp': datetime.datetime.now().isoformat()
+        })
+        
+        # Save back to file
+        with open(MODERATED_MESSAGES_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            
+    except Exception as e:
+        print(f"Error saving moderated message: {e}")
+
+# Load previously moderated messages
+moderated_messages = load_moderated_messages()
 
 def moderate_message(message):
     """
@@ -52,6 +96,10 @@ def moderate_message(message):
         print(f"Error calling moderation API: {str(e)}")
         return True, "appropriate"
 
+def get_message_id(username, timestamp, text):
+    """Generate a unique ID for a message"""
+    return f"{username}-{timestamp}-{text}"
+
 def connect_to_chat(channel, stop_event):
     global chat_lines
     chat_lines.clear()
@@ -72,16 +120,21 @@ def connect_to_chat(channel, stop_event):
                     username = matches.group(1)
                     message = matches.group(2).strip()
                     timestamp = datetime.datetime.now().strftime('%H:%M:%S')
+                    message_id = get_message_id(username, timestamp, message)
 
-                    approved, reason = moderate_message(message)
-                    # Always add the message, but mark it as moderated if:
-                    # 1. It's not approved AND
-                    # 2. Its reason is in the selected reasons
-                    is_moderated = not approved and reason in selected_reasons
+                    # Check if message is manually moderated first
+                    if message_id in moderated_messages:
+                        is_moderated = True
+                        reason = "Manually moderated"
+                    else:
+                        # If not manually moderated, check with AI
+                        approved, reason = moderate_message(message)
+                        is_moderated = not approved and reason in selected_reasons
+
                     chat_lines.append({
                         "text": message,
                         "moderated": is_moderated,
-                        "reason": reason if not approved else None,
+                        "reason": reason if is_moderated else None,
                         "username": username,
                         "timestamp": timestamp
                     })
@@ -96,8 +149,9 @@ def index():
     global current_channel, chat_thread, stop_event
 
     if request.method == "POST":
-        url = request.form.get("twitch_url")
-        new_channel = url.split("/")[-1]
+        channel = request.form.get("channel_name", "").strip().lower()
+        if not channel:
+            return render_template("index.html", channel=None, error="Por favor ingrese un nombre de canal")
 
         # Stop existing thread if running
         if chat_thread and chat_thread.is_alive():
@@ -106,13 +160,35 @@ def index():
 
         # Reset for new chat
         stop_event = threading.Event()
-        current_channel = new_channel
-        chat_thread = threading.Thread(target=connect_to_chat, args=(new_channel, stop_event), daemon=True)
+        current_channel = channel
+        chat_thread = threading.Thread(target=connect_to_chat, args=(channel, stop_event), daemon=True)
         chat_thread.start()
 
-        return render_template("index.html", channel=new_channel)
+        return render_template("index.html", channel=channel)
 
     return render_template("index.html", channel=None)
+
+@app.route('/channel/<channel_name>')
+def channel_redirect(channel_name):
+    """Handle direct channel links"""
+    global current_channel, chat_thread, stop_event
+    
+    channel = channel_name.strip().lower()
+    if not channel:
+        return render_template("index.html", channel=None, error="Nombre de canal inválido")
+
+    # Stop existing thread if running
+    if chat_thread and chat_thread.is_alive():
+        stop_event.set()
+        chat_thread.join()
+
+    # Reset for new chat
+    stop_event = threading.Event()
+    current_channel = channel
+    chat_thread = threading.Thread(target=connect_to_chat, args=(channel, stop_event), daemon=True)
+    chat_thread.start()
+
+    return render_template("index.html", channel=channel)
 
 @app.route('/update_reasons', methods=['POST'])
 def update_reasons():
@@ -122,6 +198,24 @@ def update_reasons():
         selected_reasons = set(data['reasons'])
         return jsonify({"status": "success", "reasons": list(selected_reasons)})
     return jsonify({"status": "error", "message": "Invalid request"}), 400
+
+@app.route('/toggle_moderation', methods=['POST'])
+def toggle_moderation():
+    data = request.get_json()
+    if not data or 'username' not in data or 'timestamp' not in data or 'text' not in data or 'reason' not in data:
+        return jsonify({"status": "error", "message": "Missing required fields"}), 400
+    
+    message_id = get_message_id(data['username'], data['timestamp'], data['text'])
+    
+    if message_id in moderated_messages:
+        moderated_messages.remove(message_id)
+        action = "unmoderated"
+    else:
+        moderated_messages.add(message_id)
+        save_moderated_message(message_id, data['username'], data['text'], data['reason'])
+        action = "moderated"
+    
+    return jsonify({"status": "success", "action": action})
 
 @app.route('/chat')
 def stream_chat():
