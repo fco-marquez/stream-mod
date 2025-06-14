@@ -23,7 +23,7 @@ if os.name == 'nt':
     import msvcrt
     def get_key():
         key = msvcrt.getch().decode('utf-8')
-        return '\n' if key == '\r' else key  # Normalizar Enter en Windows
+        return '\n' if key == '\r' else key
 else:
     import tty
     import termios
@@ -33,7 +33,7 @@ else:
         try:
             tty.setraw(fd)
             key = sys.stdin.read(1)
-            return '\n' if key == '\r' else key  # Normalizar Enter en Unix
+            return '\n' if key == '\r' else key
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
@@ -49,76 +49,86 @@ input_file = sys.argv[1]
 with open(input_file, 'r', encoding='utf-8') as f:
     messages = deque(json.load(f))
 
-print("Clasifica cada mensaje (ENTER para No baneable, 'd' para eliminar última, 'q' para salir)\n")
+print("Clasifica cada mensaje (teclas 0-9 para categorías, 'enter' para No baneable, ENTER para confirmar, 'd' para deshacer categoría o última asignación, 'q' para salir)\n")
 
 history = []  # Para trackear asignaciones
 
 while messages:
     msg = messages.popleft()
-    
     print("\n----------------------------------")
     print(f"{msg.get('author', {}).get('name', '???')}: {msg.get('message', '')}")
     print("Clasificación → ", end='', flush=True)
 
-    key = get_key()
+    selected_categories = []
     
-    # Salir
-    if key == 'q':
-        print("\nSaliendo...")
-        break
+    while True:
+        key = get_key()
         
-    # Eliminar última asignación
-    elif key == 'd':
-        if history:
-            last_msg, last_category = history.pop()
-            
-            # Remover de archivo
-            if os.path.exists(last_category):
-                with open(last_category, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                if data and data[-1] == last_msg:
-                    data.pop()
-                    with open(last_category, 'w', encoding='utf-8') as f:
-                        json.dump(data, f, ensure_ascii=False, indent=2)
-                        
-                # Reinsertar mensajes
-                messages.appendleft(msg)         # Mensaje actual
-                messages.appendleft(last_msg)   # Mensaje desasignado
-                print(f"\n\n---- Categorización eliminada: ---- \nMensaje: {last_msg.get('author', {}).get('name', '???')}: {last_msg.get('message', '')}\nCategoría: {last_category.split('_')[1][0]} - {category_map.get(last_category.split('_')[1][0], 'No baneable')}")
-            else:
-                print("\nError: Archivo no encontrado")
-        else:
-            print("\nNo hay asignaciones previas")
-            messages.append(msg)
-        continue
-    
-    # Determinar categoría
-    if key in ['\n']:  # Enter
-        category_number = '10'
-        category_name = category_map['enter']
-    elif key in category_map:
-        category_number = key
-        category_name = category_map[key]
-    else:
-        print(f"\nTecla inválida: {key}")
-        messages.appendleft(msg)
-        continue
+        # Salir completamente
+        if key == 'q':
+            print("\nSaliendo...")
+            sys.exit(0)
 
-    # Guardar en categoría
-    category_file = f'categoria_{category_number}.json'
-    
-    # Cargar o crear archivo
-    if os.path.exists(category_file):
-        with open(category_file, 'r', encoding='utf-8') as cf:
-            data = json.load(cf)
-    else:
-        data = []
-    
-    data.append(msg)
-    
-    # Escribir archivo
-    with open(category_file, 'w', encoding='utf-8') as cf:
-        json.dump(data, cf, ensure_ascii=False, indent=2)
-    
-    history.append((msg, category_file))
-    print(f"[{category_name}]")
+        # Confirmar y guardar
+        elif key == '\n':
+            if not selected_categories:
+                selected_categories = ['enter']
+
+            category_files = []
+            for cat in selected_categories:
+                cat_num = cat if cat != 'enter' else '10'
+                category_name = category_map[cat]
+                category_file = f'categoria_{cat_num}.json'
+
+                if os.path.exists(category_file):
+                    with open(category_file, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                else:
+                    data = []
+
+                data.append(msg)
+
+                with open(category_file, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+
+                category_files.append(category_file)
+                if category_name == "No baneable":
+                    print(f"[{category_name}] ", end='')
+
+            history.append((msg, category_files))
+            break
+        # Deshacer última categoría seleccionada
+        elif key == 'd':
+            if selected_categories:
+                removed = selected_categories.pop()
+                print(f"\nCategoría removida: {category_map[removed]}")
+                # Limpiar línea anterior de categorías
+                print("\033[F\033[K", end='')  # Subir una línea y borrarla completamente
+                print("Clasificación →", ' '.join(f"[{category_map[c]}]" for c in selected_categories), end='', flush=True)
+
+            elif history:
+                # Eliminar última asignación previa
+                last_msg, last_categories = history.pop()
+                for cat_file in last_categories:
+                    if os.path.exists(cat_file):
+                        with open(cat_file, 'r', encoding='utf-8') as f:
+                            data = json.load(f)
+                        if data and data[-1] == last_msg:
+                            data.pop()
+                            with open(cat_file, 'w', encoding='utf-8') as f:
+                                json.dump(data, f, ensure_ascii=False, indent=2)
+                messages.appendleft(msg)
+                messages.appendleft(last_msg)
+                print("\nÚltima asignación eliminada.")
+                break
+            else:
+                print("\nNada que deshacer.")
+
+        # Agregar nueva categoría
+        elif key in category_map and key not in selected_categories:
+            selected_categories.append(key)
+            print(f"[{category_map[key]}] ", end='', flush=True)
+
+        else:
+            # Tecla inválida o repetida
+            continue
