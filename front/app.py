@@ -133,3 +133,7 @@ def stream_chat():
                     yield f"data: {json.dumps(msg)}\n\n"
                 prev_len = len(chat_lines)
     return Response(stream(), mimetype='text/event-stream')
+
+@app.route('/embed-chat')
+def embed_chat():
+    return render_template('chat_only.html')
