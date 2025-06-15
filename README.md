@@ -3,7 +3,7 @@ Tool for live chat moderation in live streaming. Powered by AI models for better
 
 
 ### Categorías para etiquetar:
-    0: 'Garabatos no peyorativos',
+    0: 'Garabatos',
     1: 'Spam',
     2: 'Racismo/Xenofobia',
     3: 'Homofobia',
