@@ -3,7 +3,11 @@ import socket, threading, json, datetime, re
 import requests
 import os
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="static",
+    #static_url_path="/stream-mod/front/static" # Descomentar en local
+)
 
 HOST = "irc.chat.twitch.tv"
 PORT = 6667
