@@ -284,3 +284,14 @@ button:hover {
     font-size: 1.1rem;
     margin: 1rem 0;
 }
+
+.error-message {
+    background-color: #ef4444;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem auto;
+    max-width: 400px;
+    text-align: center;
+    font-weight: 500;
+}

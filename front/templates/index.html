@@ -5,13 +5,59 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+    <style>
+        .chat-box p {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .chat-box p:hover {
+            background-color: #f0f0f0;
+        }
+        .chat-box p.moderated {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .chat-box p.moderated:hover {
+            background-color: #ffcdd2;
+        }
+        .modal-actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .modal-actions button {
+            padding: 8px 16px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .moderate-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .unmoderate-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+        .reason-select {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
     <h1>Stream-MOD</h1>
     <h2>Moderador de chats de Twitch</h2>
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% endif %}
     <form method="POST">
-        <input type="text" name="twitch_url" placeholder="https://www.twitch.tv/nombre_canal" required />
-        <button type="submit">Connect</button>
+        <input type="text" name="channel_name" placeholder="Nombre del canal de Twitch" required />
+        <button type="submit">Conectar</button>
     </form>
 
     {% if channel %}
@@ -53,6 +99,24 @@
                 <p><strong>Mensaje:</strong></p>
                 <p id="modal-message"></p>
                 <p><strong>Razón:</strong> <span id="modal-reason"></span></p>
+                <div class="modal-actions">
+                    <select id="moderation-reason" class="reason-select">
+                        <option value="">Seleccione una razón...</option>
+                        <option value="Garabatos no peyorativos">Garabatos no peyorativos</option>
+                        <option value="Spam">Spam</option>
+                        <option value="Racismo/Xenofobia">Racismo/Xenofobia</option>
+                        <option value="Homofobia">Homofobia</option>
+                        <option value="Contenido sexual">Contenido sexual</option>
+                        <option value="Insulto">Insulto</option>
+                        <option value="Machismo/Misoginia/Sexismo">Machismo/Misoginia/Sexismo</option>
+                        <option value="Divulgación de información personal (doxxing)">Divulgación de información personal (doxxing)</option>
+                        <option value="Otros">Otros</option>
+                        <option value="Amenaza/acoso violento">Amenaza/acoso violento</option>
+                        <option value="No baneable">No baneable</option>
+                    </select>
+                    <button id="moderate-btn" class="moderate-btn">Moderar Mensaje</button>
+                    <button id="unmoderate-btn" class="unmoderate-btn" style="display: none;">Quitar Moderación</button>
+                </div>
             </div>
         </div>
     {% endif %}
