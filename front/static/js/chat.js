@@ -16,7 +16,7 @@ let currentMessage = null;  // Store the current message being viewed in modal
 
 async function updateModerationReasons(reasons) {
     try {
-        const response = await fetch('/update_reasons', {
+        const response = await fetch(window.location+'/update_reasons', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ async function toggleModeration(message, reason) {
     }
 
     try {
-        const response = await fetch('/toggle_moderation', {
+        const response = await fetch(window.location+'/toggle_moderation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
