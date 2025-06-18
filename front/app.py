@@ -1,19 +1,31 @@
 from flask import Flask, render_template, request, Response, jsonify
 import socket, threading, json, datetime, re
-import requests
-import os
+import requests, os
+from dotenv import load_dotenv
+
+# Load .env from parent directory
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+
+# Determine static_url_path based on environment
+if os.getenv('LOCAL'):
+    static_url_path = "/stream-mod/front/static"
+else:
+    static_url_path = "/static"  # Or use "/" if no subpath needed
 
 app = Flask(
     __name__,
     static_folder="static",
-    #static_url_path="/stream-mod/front/static" # Descomentar en local
+    static_url_path=static_url_path
 )
 
 HOST = "irc.chat.twitch.tv"
 PORT = 6667
 NICK = "justinfan12345"  # Anonymous
 TOKEN = "oauth:"
-MODERATION_API_URL = "http://localhost:7012/moderate"
+if os.getenv('LOCAL'):
+    MODERATION_API_URL = "http://localhost:7012/moderate"
+else:
+    MODERATION_API_URL = "http://gate.dcc.uchile.cl/stream-mod/front/moderate"
 MODERATED_MESSAGES_FILE = "moderated_messages.json"
 
 chat_lines = []
@@ -232,6 +244,6 @@ def stream_chat():
                 prev_len = len(chat_lines)
     return Response(stream(), mimetype='text/event-stream')
 
-@app.route('/embed-chat')
-def embed_chat():
-    return render_template('chat_only.html')
+@app.route('/embed-chat/<string:channel_name>')
+def embed_chat(channel_name):
+    return render_template('chat_only.html', channel_name=channel_name)

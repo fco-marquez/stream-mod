@@ -8,3 +8,4 @@ venv
 *.bin.index.json
 *.bin.index.json.index
 vocab.txt
+__pycache__

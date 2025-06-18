@@ -58,7 +58,6 @@ def drive_url(file_id):
 def download_model_files(model_dir):
     """Download model files from Google Drive to the specified directory"""
     # Google Drive direct download links (replace with your actual file IDs)
-    print(os.getenv('CONFIG_JSON_ID'))
     model_files = {
         'config.json': drive_url(os.getenv('CONFIG_JSON_ID')),
         'model.safetensors': drive_url(os.getenv('MODEL_SAFETENSORS_ID')),
