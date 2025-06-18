@@ -9,7 +9,7 @@ const moderateBtn = document.getElementById("moderate-btn");
 const unmoderateBtn = document.getElementById("unmoderate-btn");
 const reasonSelect = document.getElementById("moderation-reason");
 
-const evtSource = new EventSource("/chat");
+const evtSource = new EventSource(window.location+"/chat");
 let chatMessages = []; // Store all messages
 let lastMessageId = 0; // Track the last message we've processed
 let currentMessage = null;  // Store the current message being viewed in modal
