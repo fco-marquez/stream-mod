@@ -9,3 +9,4 @@ venv
 *.bin.index.json.index
 vocab.txt
 __pycache__
+modelo_final_guardado

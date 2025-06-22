@@ -5,8 +5,8 @@ from flask import Flask, jsonify, request
 @app.route('/moderate', methods=['POST'])
 def moderate():
     """
-    Endpoint to moderate messages using the BERT model.
-    Returns both moderation status and reason.
+    Endpoint to moderate messages using a multi-label BERT model.
+    Returns moderation status and list of reasons.
     """
     try:
         # Get the message from request
@@ -20,13 +20,13 @@ def moderate():
         message = data['mensaje']
         
         # Get moderation result
-        approved, reason = moderate_message(message, model, tokenizer)
+        approved, reasons = moderate_message(message, model, tokenizer)
         
         # Create response
         response = {
             "status": "success",
             "approved": approved,
-            "reason": reason,
+            "reasons": reasons,
             "message": message
         }
         

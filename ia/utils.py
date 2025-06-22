@@ -1,11 +1,8 @@
-import re
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel, BertForSequenceClassification
 import torch
 import numpy as np
 from torch import nn
-import os
-import shutil
-import hashlib
+import os, shutil, hashlib, re, json
 
 # Define moderation categories and their labels (updated to match fine-tuned model)
 MODERATION_CATEGORIES = {
@@ -56,66 +53,67 @@ def drive_url(file_id):
     return f"https://drive.google.com/uc?export=download&id={file_id}"
 
 def download_model_files(model_dir):
-    """Download model files from Google Drive to the specified directory"""
-    # Google Drive direct download links (replace with your actual file IDs)
-    model_files = {
-        'config.json': drive_url(os.getenv('CONFIG_JSON_ID')),
-        'model.safetensors': drive_url(os.getenv('MODEL_SAFETENSORS_ID')),
-        'tokenizer.json': drive_url(os.getenv('TOKENIZER_JSON_ID')),
-        'tokenizer_config.json': drive_url(os.getenv('TOKENIZER_CONFIG_JSON_ID')),
-        'special_tokens_map.json': drive_url(os.getenv('SPECIAL_TOKENS_MAP_ID')),
-        'vocab.txt': drive_url(os.getenv('VOCAB_TXT_ID'))
-    }
+    """
+    Download all model files from a public Google Drive folder and validate them.
 
-    # Create model directory if it doesn't exist
+    Relies on the environment variable MODEL_FOLDER_ID and uses gdown to download the entire folder.
+    Validates JSON and safetensors files. Skips re-downloading valid files.
+    """
+    from safetensors.torch import load_file  # For safetensors validation
+
+    folder_id = os.getenv("MODEL_FOLDER_ID")
+    if not folder_id:
+        raise ValueError("MODEL_FOLDER_ID environment variable is not set.")
+
+    url = f"https://drive.google.com/drive/folders/{folder_id}"
     os.makedirs(model_dir, exist_ok=True)
+
+    print(f"Downloading model files from folder: {url}")
     
-    # Download each file
-    for filename, url in model_files.items():
-        file_path = os.path.join(model_dir, filename)
-        temp_path = file_path + '.tmp'
-        
-        # Skip if file exists and is valid
-        if os.path.exists(file_path):
+    # Use a temporary directory to avoid overwriting valid files
+    temp_dir = os.path.join(model_dir, "__temp_download")
+    os.makedirs(temp_dir, exist_ok=True)
+
+    # Download all files in the folder
+    gdown.download_folder(url=url, output=temp_dir, quiet=False, use_cookies=False)
+
+    # Validate and move each file individually
+    for filename in os.listdir(temp_dir):
+        temp_file_path = os.path.join(temp_dir, filename)
+        target_file_path = os.path.join(model_dir, filename)
+
+        # If already exists and valid, skip
+        if os.path.exists(target_file_path):
             try:
-                # Try to validate the file based on its type
                 if filename.endswith('.safetensors'):
-                    from safetensors.torch import load_file
-                    load_file(file_path)  # This will raise an error if file is corrupted
+                    load_file(target_file_path)
                 elif filename.endswith('.json'):
-                    with open(file_path, 'r', encoding='utf-8') as f:
-                        import json
-                        json.load(f)  # This will raise an error if file is corrupted
+                    with open(target_file_path, 'r', encoding='utf-8') as f:
+                        json.load(f)
                 print(f"{filename} exists and is valid, skipping download")
                 continue
             except Exception as e:
-                print(f"{filename} exists but is corrupted, will redownload: {str(e)}")
-                os.remove(file_path)
-        
-        print(f"Downloading {filename}...")
-        file_id = url.split("id=")[-1]
-        if gdown_download(file_id, temp_path):
-            # Verify the downloaded file
-            try:
-                if filename.endswith('.safetensors'):
-                    from safetensors.torch import load_file
-                    load_file(temp_path)  # This will raise an error if file is corrupted
-                elif filename.endswith('.json'):
-                    with open(temp_path, 'r', encoding='utf-8') as f:
-                        import json
-                        json.load(f)  # This will raise an error if file is corrupted
-                
-                # If we get here, the file is valid, so move it to the final location
-                shutil.move(temp_path, file_path)
-                print(f"Successfully downloaded and verified {filename}")
-            except Exception as e:
-                print(f"Downloaded {filename} is corrupted: {str(e)}")
-                if os.path.exists(temp_path):
-                    os.remove(temp_path)
-                raise
-        else:
-            raise Exception(f"Failed to download {filename}")
+                print(f"{filename} exists but is corrupted, will replace: {str(e)}")
+                os.remove(target_file_path)
 
+        # Validate the downloaded file
+        try:
+            if filename.endswith('.safetensors'):
+                load_file(temp_file_path)
+            elif filename.endswith('.json'):
+                with open(temp_file_path, 'r', encoding='utf-8') as f:
+                    json.load(f)
+            
+            # Move the file if valid
+            shutil.move(temp_file_path, target_file_path)
+            print(f"Successfully downloaded and verified {filename}")
+        except Exception as e:
+            print(f"Downloaded {filename} is corrupted: {str(e)}")
+            os.remove(temp_file_path)
+
+    # Cleanup temp directory
+    if os.path.exists(temp_dir):
+        shutil.rmtree(temp_dir)
 def cargar_modelo(model_dir="modelo_final_guardado"):
     """
     Load the fine-tuned Tulio BERT model and tokenizer for moderation
@@ -175,47 +173,53 @@ def cargar_modelo(model_dir="modelo_final_guardado"):
         print(f"Error loading model: {str(e)}")
         raise
 
+import torch
+
+# Example threshold
+THRESHOLD = 0.5
+
 def get_prediction(text, model, tokenizer):
     """
-    Get moderation prediction and reason for a message
-    
+    Get moderation prediction and reasons for a message (multi-label)
+
     Parameters:
     text (str): Message to moderate
-    model: The loaded BERT model with classification head
+    model: The loaded multi-label classification model
     tokenizer: The loaded tokenizer
-    
+
     Returns:
-    tuple: (approved: bool, reason: str)
+    tuple: (approved: bool, reasons: List[str])
     """
     # Prepare the input
     inputs = tokenizer(
         text,
         return_tensors="pt",
         truncation=True,
-        max_length=128,  # Updated to match training
+        max_length=128,
         padding=True,
         add_special_tokens=True
     )
     
-    # Get model prediction
-    model.eval()  # Set to evaluation mode
+    model.eval()
     with torch.no_grad():
         try:
-            outputs = model(**inputs)  # Get model outputs
-            logits = outputs.logits  # Extract logits from outputs
-            probabilities = torch.softmax(logits, dim=1)  # Apply softmax to logits
-            prediction = torch.argmax(probabilities, dim=1).item()  # Get prediction from probabilities
+            outputs = model(**inputs)
+            logits = outputs.logits
+            probabilities = torch.sigmoid(logits).squeeze()  # For multi-label, apply sigmoid
             
-            # Get the reason from our categories
-            reason = MODERATION_CATEGORIES[prediction]
-            
-            approved = reason == 'No baneable'
-            
-            return approved, reason
-            
+            # Get predicted categories (multi-label)
+            predicted_indices = (probabilities >= THRESHOLD).nonzero(as_tuple=True)[0].tolist()
+            reasons = [MODERATION_CATEGORIES[i] for i in predicted_indices]
+
+            # If all categories are non-baneable, approve
+            approved = all(reason == 'No baneable' for reason in reasons) if reasons else True
+
+            return approved, reasons if reasons else ["No baneable"]
+
         except Exception as e:
             print(f"Error in prediction: {str(e)}")
-            return True, "appropriate"  # Default to approved on error
+            return True, ["appropriate"]  # Fallback
+
 
 def moderate_message(text, model, tokenizer):
     """

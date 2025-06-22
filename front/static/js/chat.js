@@ -1,3 +1,6 @@
+// Get session ID from the template (make sure this is added to your HTML)
+const sessionId = document.getElementById('session-id')?.value || '';
+
 const chatBox = document.getElementById('chat-box');
 const modal = document.getElementById("message-modal");
 const modalMsg = document.getElementById("modal-message");
@@ -9,17 +12,35 @@ const moderateBtn = document.getElementById("moderate-btn");
 const unmoderateBtn = document.getElementById("unmoderate-btn");
 const reasonSelect = document.getElementById("moderation-reason");
 
-const evtSource = new EventSource(window.location+"/chat");
+// Initialize EventSource with session ID
+const evtSource = new EventSource(`/chat?session_id=${sessionId}`);
+
 let chatMessages = []; // Store all messages
-let lastMessageId = 0; // Track the last message we've processed
 let currentMessage = null;  // Store the current message being viewed in modal
+
+// Initialize selectedReasons if not already defined
+if (typeof window.selectedReasons === 'undefined') {
+    window.selectedReasons = new Set([
+        'Garabatos no peyorativos',
+        'Spam',
+        'Racismo/Xenofobia',
+        'Homofobia',
+        'Contenido sexual',
+        'Insulto',
+        'Machismo/Misoginia/Sexismo',
+        'Divulgación de información personal (doxxing)',
+        'Otros',
+        'Amenaza/acoso violento'
+    ]);
+}
 
 async function updateModerationReasons(reasons) {
     try {
-        const response = await fetch(window.location+'/update_reasons', {
+        const response = await fetch('/update_reasons', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Session-ID': sessionId
             },
             body: JSON.stringify({ reasons: Array.from(reasons) })
         });
@@ -32,7 +53,7 @@ async function updateModerationReasons(reasons) {
     }
 }
 
-// Update the event listeners in index.html to use this function
+// Update the event listeners to use this function
 window.updateSelectedReasons = function(reason, isChecked) {
     if (isChecked) {
         window.selectedReasons.add(reason);
@@ -48,9 +69,17 @@ function shouldShowMessage(data) {
     // If message is not moderated, always show it
     if (!data.moderated) return true;
     
-    // If message is moderated, only show it if its reason is selected
-    // This means if the reason is disabled, the message will be shown as unmoderated
-    return window.selectedReasons.has(data.reason);
+    // If message is moderated, check if any of its reasons are selected
+    if (data.reasons && Array.isArray(data.reasons)) {
+        return data.reasons.some(reason => window.selectedReasons.has(reason));
+    }
+    
+    // Fallback for single reason (backward compatibility)
+    if (data.reason) {
+        return window.selectedReasons.has(data.reason);
+    }
+    
+    return false;
 }
 
 function refreshChatDisplay() {
@@ -60,15 +89,6 @@ function refreshChatDisplay() {
     // Re-add messages that should be shown
     chatMessages.forEach(data => {
         const msg = createMessageElement(data);
-        // If the message was moderated but its reason is not selected,
-        // show it as an unmoderated message
-        if (data.moderated && !window.selectedReasons.has(data.reason)) {
-            msg.classList.remove("moderated", "blurred");
-            msg.innerHTML = `<strong>${data.timestamp} - ${data.username}:</strong> ${data.text}`;
-            msg.style.cursor = "default";
-            // Remove click handler for viewing moderated message
-            msg.replaceWith(msg.cloneNode(true));
-        }
         chatBox.appendChild(msg);
     });
     
@@ -82,16 +102,17 @@ async function toggleModeration(message, reason) {
     }
 
     try {
-        const response = await fetch(window.location+'/toggle_moderation', {
+        const response = await fetch('/toggle_moderation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Session-ID': sessionId
             },
             body: JSON.stringify({
                 username: message.username,
                 timestamp: message.timestamp,
                 text: message.text,
-                reason: reason || message.reason
+                reason: reason || (message.reasons ? message.reasons[0] : message.reason)
             })
         });
         
@@ -111,11 +132,22 @@ async function toggleModeration(message, reason) {
             
             if (messageIndex !== -1) {
                 chatMessages[messageIndex].moderated = data.action === 'moderated';
-                chatMessages[messageIndex].reason = reason || message.reason;
+                if (data.action === 'moderated') {
+                    chatMessages[messageIndex].reason = reason;
+                    chatMessages[messageIndex].reasons = [reason];
+                }
+                
+                // Update current message if it's the same
+                if (currentMessage && 
+                    currentMessage.username === message.username &&
+                    currentMessage.timestamp === message.timestamp &&
+                    currentMessage.text === message.text) {
+                    currentMessage = chatMessages[messageIndex];
+                }
                 
                 // Update UI
                 refreshChatDisplay();
-                updateModalButtons(message);
+                updateModalButtons(chatMessages[messageIndex]);
                 reasonSelect.value = '';  // Reset reason select
             }
         }
@@ -136,38 +168,41 @@ function updateModalButtons(message) {
     }
 }
 
+function getDisplayReason(data) {
+    if (data.reasons && Array.isArray(data.reasons) && data.reasons.length > 0) {
+        return data.reasons.join(', ');
+    }
+    return data.reason || 'Moderado';
+}
+
 function createMessageElement(data) {
     const msg = document.createElement("p");
     
-    if (data.moderated) {
-        msg.classList.add("moderated");
-    }
-
-    if (data.moderated) {
-        msg.classList.add("blurred");
-        msg.innerHTML = `<strong>${data.timestamp} - ${data.username}:</strong> [${data.reason}] Click to view`;
+    // Determine if message should be shown as moderated based on current filters
+    const isModeratedAndVisible = data.moderated && shouldShowMessage(data);
+    const isModeratedButHidden = data.moderated && !shouldShowMessage(data);
+    
+    if (isModeratedAndVisible) {
+        msg.classList.add("moderated", "blurred");
+        const displayReason = getDisplayReason(data);
+        msg.innerHTML = `<strong>${data.timestamp} - ${data.username}:</strong> [${displayReason}] Click to view`;
         msg.style.cursor = "pointer";
-        msg.addEventListener("click", () => {
-            currentMessage = data;
-            modalMsg.textContent = data.text;
-            modalReason.textContent = data.reason;
-            modalUser.textContent = data.username;
-            modalTime.textContent = data.timestamp;
-            updateModalButtons(data);
-            modal.classList.remove("hidden");
-        });
     } else {
+        // Show as unmoderated (either truly unmoderated or moderated but filtered out)
         msg.innerHTML = `<strong>${data.timestamp} - ${data.username}:</strong> ${data.text}`;
-        msg.addEventListener("click", () => {
-            currentMessage = data;
-            modalMsg.textContent = data.text;
-            modalReason.textContent = "No moderado";
-            modalUser.textContent = data.username;
-            modalTime.textContent = data.timestamp;
-            updateModalButtons(data);
-            modal.classList.remove("hidden");
-        });
+        msg.style.cursor = "pointer";
     }
+    
+    // Add click event for modal
+    msg.addEventListener("click", () => {
+        currentMessage = data;
+        modalMsg.textContent = data.text;
+        modalReason.textContent = data.moderated ? getDisplayReason(data) : "No moderado";
+        modalUser.textContent = data.username;
+        modalTime.textContent = data.timestamp;
+        updateModalButtons(data);
+        modal.classList.remove("hidden");
+    });
     
     return msg;
 }
@@ -176,7 +211,6 @@ evtSource.onmessage = function(event) {
     const data = JSON.parse(event.data);
     
     // Check if we've already processed this message
-    const messageId = `${data.username}-${data.timestamp}-${data.text}`;
     if (chatMessages.some(msg => 
         msg.username === data.username && 
         msg.timestamp === data.timestamp && 
@@ -188,38 +222,57 @@ evtSource.onmessage = function(event) {
     // Add to our message store
     chatMessages.push(data);
     
-    // Only show if it matches our current filters
-    if (shouldShowMessage(data)) {
-        const msg = createMessageElement(data);
-        chatBox.appendChild(msg);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    // Create and add the message element
+    const msg = createMessageElement(data);
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+};
+
+// Handle EventSource errors
+evtSource.onerror = function(event) {
+    console.error('EventSource failed:', event);
+    // You might want to implement reconnection logic here
 };
 
 // Add event listeners for moderation buttons
-moderateBtn.addEventListener('click', () => {
-    if (currentMessage) {
-        toggleModeration(currentMessage, reasonSelect.value);
-    }
-});
+if (moderateBtn) {
+    moderateBtn.addEventListener('click', () => {
+        if (currentMessage && reasonSelect.value) {
+            toggleModeration(currentMessage, reasonSelect.value);
+        } else if (currentMessage && !reasonSelect.value) {
+            alert("Por favor seleccione una razón para moderar el mensaje");
+        }
+    });
+}
 
-unmoderateBtn.addEventListener('click', () => {
-    if (currentMessage) {
-        toggleModeration(currentMessage);
-    }
-});
+if (unmoderateBtn) {
+    unmoderateBtn.addEventListener('click', () => {
+        if (currentMessage) {
+            toggleModeration(currentMessage);
+        }
+    });
+}
 
 // Reset modal when closed
-closeBtn.onclick = function() {
-    modal.classList.add("hidden");
-    reasonSelect.value = '';
-    currentMessage = null;
-};
+if (closeBtn) {
+    closeBtn.onclick = function() {
+        modal.classList.add("hidden");
+        reasonSelect.value = '';
+        currentMessage = null;
+    };
+}
 
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.classList.add("hidden");
-        reasonSelect.value = '';
+        if (reasonSelect) reasonSelect.value = '';
         currentMessage = null;
     }
 };
+
+// Clean up EventSource when page unloads
+window.addEventListener('beforeunload', function() {
+    if (evtSource) {
+        evtSource.close();
+    }
+});
