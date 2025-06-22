@@ -13,7 +13,7 @@ const unmoderateBtn = document.getElementById("unmoderate-btn");
 const reasonSelect = document.getElementById("moderation-reason");
 
 // Initialize EventSource with session ID
-const evtSource = new EventSource(`/chat?session_id=${sessionId}`);
+const evtSource = new EventSource(window.location+`/chat?session_id=${sessionId}`);
 
 let chatMessages = []; // Store all messages
 let currentMessage = null;  // Store the current message being viewed in modal
