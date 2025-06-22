@@ -36,7 +36,7 @@ if (typeof window.selectedReasons === 'undefined') {
 
 async function updateModerationReasons(reasons) {
     try {
-        const response = await fetch('/update_reasons', {
+        const response = await fetch(window.origin+'/update_reasons', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ async function toggleModeration(message, reason) {
     }
 
     try {
-        const response = await fetch('/toggle_moderation', {
+        const response = await fetch(window.origin+'/toggle_moderation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
