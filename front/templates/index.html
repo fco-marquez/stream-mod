@@ -60,6 +60,7 @@
     </form>
 
     {% if channel %}
+        <input type="hidden" id="session-id" value="{{ session_id }}">
         <div class="stream-container">
             <div class="stream-column">
                 <h2>Stream de {{ channel }}</h2>
@@ -84,7 +85,6 @@
                     <label><input type="checkbox" name="reason" value="Divulgación de información personal (doxxing)" checked><span>Divulgación de información personal (doxxing)</span></label>
                     <label><input type="checkbox" name="reason" value="Otros" checked><span>Otros</span></label>
                     <label><input type="checkbox" name="reason" value="Amenaza/acoso violento" checked><span>Amenaza/acoso violento</span></label>
-                    <label><input type="checkbox" name="reason" value="No baneable" checked><span>No baneable</span></label>
                 </div>
             </div>
         </div>
@@ -151,8 +151,7 @@
             'Machismo/Misoginia/Sexismo',
             'Divulgación de información personal (doxxing)',
             'Otros',
-            'Amenaza/acoso violento',
-            'No baneable'
+            'Amenaza/acoso violento'
         ]);
         
         document.querySelectorAll('.reason-filters input').forEach(checkbox => {
