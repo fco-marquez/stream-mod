@@ -10,7 +10,18 @@ const modalTime = document.getElementById("modal-time");
 const closeBtn = document.querySelector(".close-btn");
 const moderateBtn = document.getElementById("moderate-btn");
 const unmoderateBtn = document.getElementById("unmoderate-btn");
-const reasonSelect = document.getElementById("moderation-reason");
+
+// Get currently selected reasons from checkboxes
+function getSelectedReasons() {
+    const checkboxes = document.querySelectorAll('#moderation-reason input[type="checkbox"]:checked');
+    return Array.from(checkboxes).map(cb => cb.value);
+}
+
+// Clear all reason checkboxes
+function clearReasonCheckboxes() {
+    const checkboxes = document.querySelectorAll('#moderation-reason input[type="checkbox"]');
+    checkboxes.forEach(cb => cb.checked = false);
+}
 
 // Initialize EventSource with session ID
 const evtSource = new EventSource(window.location+`/chat?session_id=${sessionId}`);
@@ -18,10 +29,10 @@ const evtSource = new EventSource(window.location+`/chat?session_id=${sessionId}
 let chatMessages = []; // Store all messages
 let currentMessage = null;  // Store the current message being viewed in modal
 
-// Initialize selectedReasons if not already defined
+// Initialize selectedReasons for filtering display
 if (typeof window.selectedReasons === 'undefined') {
     window.selectedReasons = new Set([
-        'Garabatos no peyorativos',
+        'Garabato',
         'Spam',
         'Racismo/Xenofobia',
         'Homofobia',
@@ -30,7 +41,8 @@ if (typeof window.selectedReasons === 'undefined') {
         'Machismo/Misoginia/Sexismo',
         'Divulgación de información personal (doxxing)',
         'Otros',
-        'Amenaza/acoso violento'
+        'Amenaza/acoso violento',
+        'No baneable'
     ]);
 }
 
@@ -53,7 +65,7 @@ async function updateModerationReasons(reasons) {
     }
 }
 
-// Update the event listeners to use this function
+// Update the selected reasons for filtering display
 window.updateSelectedReasons = function(reason, isChecked) {
     if (isChecked) {
         window.selectedReasons.add(reason);
@@ -95,8 +107,10 @@ function refreshChatDisplay() {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-async function toggleModeration(message, reason) {
-    if (!reason && !message.moderated) {
+async function toggleModeration(message, reasons = null) {
+    // If unmoderate (no reasons provided), proceed
+    // If moderate, check that reasons are provided
+    if (!message.moderated && (!reasons || reasons.length === 0)) {
         alert("Por favor seleccione una razón para moderar el mensaje");
         return;
     }
@@ -112,7 +126,7 @@ async function toggleModeration(message, reason) {
                 username: message.username,
                 timestamp: message.timestamp,
                 text: message.text,
-                reason: reason || (message.reasons ? message.reasons[0] : message.reason)
+                reasons: reasons || (message.reasons || [message.reason].filter(Boolean))
             })
         });
         
@@ -132,9 +146,13 @@ async function toggleModeration(message, reason) {
             
             if (messageIndex !== -1) {
                 chatMessages[messageIndex].moderated = data.action === 'moderated';
-                if (data.action === 'moderated') {
-                    chatMessages[messageIndex].reason = reason;
-                    chatMessages[messageIndex].reasons = [reason];
+                if (data.action === 'moderated' && reasons) {
+                    chatMessages[messageIndex].reasons = reasons;
+                    // Keep backward compatibility
+                    chatMessages[messageIndex].reason = reasons[0];
+                } else if (data.action === 'unmoderated') {
+                    delete chatMessages[messageIndex].reasons;
+                    delete chatMessages[messageIndex].reason;
                 }
                 
                 // Update current message if it's the same
@@ -148,7 +166,7 @@ async function toggleModeration(message, reason) {
                 // Update UI
                 refreshChatDisplay();
                 updateModalButtons(chatMessages[messageIndex]);
-                reasonSelect.value = '';  // Reset reason select
+                clearReasonCheckboxes();  // Clear checkboxes after action
             }
         }
     } catch (error) {
@@ -157,6 +175,8 @@ async function toggleModeration(message, reason) {
 }
 
 function updateModalButtons(message) {
+    const reasonSelect = document.getElementById("moderation-reason");
+    
     if (message.moderated) {
         moderateBtn.style.display = 'none';
         unmoderateBtn.style.display = 'inline-block';
@@ -180,7 +200,6 @@ function createMessageElement(data) {
     
     // Determine if message should be shown as moderated based on current filters
     const isModeratedAndVisible = data.moderated && shouldShowMessage(data);
-    const isModeratedButHidden = data.moderated && !shouldShowMessage(data);
     
     if (isModeratedAndVisible) {
         msg.classList.add("moderated", "blurred");
@@ -237,10 +256,16 @@ evtSource.onerror = function(event) {
 // Add event listeners for moderation buttons
 if (moderateBtn) {
     moderateBtn.addEventListener('click', () => {
-        if (currentMessage && reasonSelect.value) {
-            toggleModeration(currentMessage, reasonSelect.value);
-        } else if (currentMessage && !reasonSelect.value) {
-            alert("Por favor seleccione una razón para moderar el mensaje");
+        if (currentMessage) {
+            const selectedReasons = getSelectedReasons();
+            if (selectedReasons.length > 0) {
+                toggleModeration(currentMessage, selectedReasons);
+                modal.classList.add("hidden");
+                clearReasonCheckboxes(); // Clear selected reasons
+                currentMessage = null;
+            } else {
+                alert("Por favor seleccione una razón para moderar el mensaje");
+            }
         }
     });
 }
@@ -257,7 +282,7 @@ if (unmoderateBtn) {
 if (closeBtn) {
     closeBtn.onclick = function() {
         modal.classList.add("hidden");
-        reasonSelect.value = '';
+        clearReasonCheckboxes(); // Clear selected reasons
         currentMessage = null;
     };
 }
@@ -265,7 +290,7 @@ if (closeBtn) {
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.classList.add("hidden");
-        if (reasonSelect) reasonSelect.value = '';
+        clearReasonCheckboxes();
         currentMessage = null;
     }
 };
@@ -275,4 +300,17 @@ window.addEventListener('beforeunload', function() {
     if (evtSource) {
         evtSource.close();
     }
+});
+
+// Initialize checkbox event listeners when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to all moderation reason checkboxes
+    const checkboxes = document.querySelectorAll('#moderation-reason input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // This is for display filtering, not for moderation action
+            // The moderation action uses getSelectedReasons() when the moderate button is clicked
+            console.log('Checkbox changed:', this.value, this.checked);
+        });
+    });
 });

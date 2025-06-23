@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" href="{{ url_for('static', filename='stream-mod.ico') }}" type="image/x-icon">
     <title>StreamMod</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
@@ -75,7 +76,7 @@
             <div class="moderation-panel">
                 <h3>Razones de Moderación</h3>
                 <div class="reason-filters">
-                    <label><input type="checkbox" name="reason" value="Garabatos no peyorativos" checked><span>Garabatos no peyorativos</span></label>
+                    <label><input type="checkbox" name="reason" value="Garabato" checked><span>Garabato</span></label>
                     <label><input type="checkbox" name="reason" value="Spam" checked><span>Spam</span></label>
                     <label><input type="checkbox" name="reason" value="Racismo/Xenofobia" checked><span>Racismo/Xenofobia</span></label>
                     <label><input type="checkbox" name="reason" value="Homofobia" checked><span>Homofobia</span></label>
@@ -99,20 +100,20 @@
                 <p id="modal-message"></p>
                 <p><strong>Razón:</strong> <span id="modal-reason"></span></p>
                 <div class="modal-actions">
-                    <select id="moderation-reason" class="reason-select">
-                        <option value="">Seleccione una razón...</option>
-                        <option value="Garabatos no peyorativos">Garabatos no peyorativos</option>
-                        <option value="Spam">Spam</option>
-                        <option value="Racismo/Xenofobia">Racismo/Xenofobia</option>
-                        <option value="Homofobia">Homofobia</option>
-                        <option value="Contenido sexual">Contenido sexual</option>
-                        <option value="Insulto">Insulto</option>
-                        <option value="Machismo/Misoginia/Sexismo">Machismo/Misoginia/Sexismo</option>
-                        <option value="Divulgación de información personal (doxxing)">Divulgación de información personal (doxxing)</option>
-                        <option value="Otros">Otros</option>
-                        <option value="Amenaza/acoso violento">Amenaza/acoso violento</option>
-                        <option value="No baneable">No baneable</option>
-                    </select>
+                    <div id="moderation-reason" class="reason-checkboxes">
+                        <label><input type="checkbox" value="Garabato"> Garabato</label>
+                        <label><input type="checkbox" value="Spam"> Spam</label>
+                        <label><input type="checkbox" value="Racismo/Xenofobia"> Racismo/Xenofobia</label>
+                        <label><input type="checkbox" value="Homofobia"> Homofobia</label>
+                        <label><input type="checkbox" value="Contenido sexual"> Contenido sexual</label>
+                        <label><input type="checkbox" value="Insulto"> Insulto</label>
+                        <label><input type="checkbox" value="Machismo/Misoginia/Sexismo"> Machismo/Misoginia/Sexismo</label>
+                        <label><input type="checkbox" value="Divulgación de información personal (doxxing)"> Divulgación de información personal (doxxing)</label>
+                        <label><input type="checkbox" value="Otros"> Otros</label>
+                        <label><input type="checkbox" value="Amenaza/acoso violento"> Amenaza/acoso violento</label>
+                        <label><input type="checkbox" value="No baneable"> No baneable</label>
+                    </div>
+
                     <button id="moderate-btn" class="moderate-btn">Moderar Mensaje</button>
                     <button id="unmoderate-btn" class="unmoderate-btn" style="display: none;">Quitar Moderación</button>
                 </div>
@@ -142,7 +143,7 @@
 
         // Initialize moderation reasons with all categories
         window.selectedReasons = new Set([
-            'Garabatos no peyorativos',
+            'Garabato',
             'Spam',
             'Racismo/Xenofobia',
             'Homofobia',

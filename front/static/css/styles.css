@@ -295,3 +295,24 @@ button:hover {
     text-align: center;
     font-weight: 500;
 }
+
+.reason-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    max-height: 200px;
+    overflow-y: auto;
+    color: black;
+}
+
+.reason-checkboxes label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 8px;
+    cursor: pointer;
+}

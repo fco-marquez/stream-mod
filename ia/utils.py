@@ -6,7 +6,7 @@ import os, shutil, hashlib, re, json
 
 # Define moderation categories and their labels (updated to match fine-tuned model)
 MODERATION_CATEGORIES = {
-    0: 'Garabatos no peyorativos',
+    0: 'Garabato',
     1: 'Spam',
     2: 'Racismo/Xenofobia',
     3: 'Homofobia',

@@ -88,7 +88,7 @@ class ChatSession:
         self.lock = threading.Lock()
         self.moderated_messages = load_moderated_messages()
         self.selected_reasons = set([
-            'Garabatos no peyorativos',
+            'Garabato',
             'Spam',
             'Racismo/Xenofobia',
             'Homofobia',
@@ -174,20 +174,21 @@ class ChatSession:
                             with self.lock:
                                 if message_id in self.moderated_messages:
                                     is_moderated = True
-                                    moderation_reasons = ["Manually moderated"]
+                                    moderation_reasons = ["Moderado manualmente"]
                                 else:
                                     # Check with AI
                                     approved, reasons = moderate_message(message)
-                                    moderation_reasons = reasons
                                     if not approved:
+                                        moderation_reasons = [reason for reason in reasons if reason != "No baneable"]
                                         # Flag if at least one reason matches the selected ones
                                         is_moderated = any(r in self.selected_reasons for r in reasons)
+                                    else:
+                                        moderation_reasons = ["No baneable"]
 
                                 self.chat_lines.append({
                                     "text": message,
                                     "moderated": is_moderated,
-                                    "reason": moderation_reasons if is_moderated else None,
-                                    "reasons": moderation_reasons,  # Always include all reasons
+                                    "reasons": moderation_reasons,
                                     "username": username,
                                     "timestamp": timestamp
                                 })
@@ -392,18 +393,33 @@ def toggle_moderation():
         return jsonify({"status": "error", "message": "No active chat session"}), 400
     
     data = request.get_json()
-    if not data or 'username' not in data or 'timestamp' not in data or 'text' not in data or 'reason' not in data:
+    if not data or 'username' not in data or 'timestamp' not in data or 'text' not in data:
         return jsonify({"status": "error", "message": "Missing required fields"}), 400
+    
+    # Handle both single reason (backward compatibility) and multiple reasons
+    reasons = None
+    if 'reasons' in data:
+        reasons = data['reasons']
+        if not isinstance(reasons, list):
+            return jsonify({"status": "error", "message": "reasons must be an array"}), 400
+    elif 'reason' in data:
+        # Backward compatibility - convert single reason to array
+        reasons = [data['reason']] if data['reason'] else []
+    
+    # For moderation, we need at least one reason
+    # For unmoderation, reasons can be empty/None
+    if reasons is not None and len(reasons) == 0:
+        # This might be an unmoderation request - check if message is currently moderated
+        pass  # Let the chat_session method handle this
     
     action = chat_session.toggle_message_moderation(
         data['username'], 
         data['timestamp'], 
         data['text'], 
-        data['reason']
+        reasons  # Pass the reasons array instead of single reason
     )
     
     return jsonify({"status": "success", "action": action})
-
 @app.route('/chat')
 def stream_chat():
     session_id = get_or_create_session_id(request)
