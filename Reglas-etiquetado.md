@@ -1,4 +1,4 @@
-📄 Reglas para la Etiquetación de Mensajes de Twitch
+📄 Reglas para el etiquetado de Mensajes de Twitch
 
 Este documento establece criterios para clasificar mensajes según su contenido, con el objetivo de facilitar la moderación automatizada o asistida de chats en Twitch. Cada mensaje debe ser etiquetado con una o más de las siguientes categorías, según corresponda:
 CATEGORÍAS Y CRITERIOS
