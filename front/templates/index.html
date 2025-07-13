@@ -62,6 +62,7 @@
 
     {% if channel %}
         <input type="hidden" id="session-id" value="{{ session_id }}">
+        <input type="hidden" id="channel-name" value="{{ channel }}">
         <div class="stream-container">
             <div class="stream-column">
                 <h2>Stream de {{ channel }}</h2>
@@ -70,6 +71,7 @@
             <div class="chat-column">
                 <h2>Chat Moderado</h2>
                 <div id="chat-box" class="chat-box"></div>
+                <button id="embed-chat-btn" class="embed-chat-btn">Ver Chat</button>
             </div>
         </div>
         <div class="moderation-container">

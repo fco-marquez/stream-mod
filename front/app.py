@@ -420,6 +420,7 @@ def toggle_moderation():
     )
     
     return jsonify({"status": "success", "action": action})
+
 @app.route('/chat')
 def stream_chat():
     session_id = get_or_create_session_id(request)
@@ -458,7 +459,28 @@ def stream_chat():
 @app.route('/embed-chat/<string:channel_name>')
 def embed_chat(channel_name):
     session_id = get_or_create_session_id(request)
-    return render_template('chat_only.html', channel_name=channel_name, session_id=session_id)
+
+    # Always store session data
+    user_sessions[session_id] = {
+        "channel": channel_name,
+        "last_activity": time.time()
+    }
+
+    chat_session = chat_manager.get_chat_for_session(session_id)
+
+    moderation_reason = chat_session.selected_reasons if chat_session else []
+
+    # Always get or create the chat
+    chat_session = chat_manager.get_or_create_chat(channel_name, session_id)
+
+    return render_template(
+        'chat_only.html',
+        channel_name=channel_name,
+        moderation_reason=moderation_reason,
+        chat_lines=chat_session.chat_lines,
+        session_id=session_id
+    )
+
 
 @app.before_request
 def cleanup_sessions():
