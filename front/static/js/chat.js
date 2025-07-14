@@ -319,12 +319,12 @@ function setupEventListeners() {
 
 // ===== EMBED CHAT BUTTON =====
 embedButton?.addEventListener("click", function() {
-    const embedUrl = `${window.location}/embed-chat/${channelName}?session_id=${sessionId}`;
+    const embedUrl = `${window.location}embed-chat/${channelName}?session_id=${sessionId}`;
     window.open(embedUrl, "_blank", "width=600,height=800");
 });
 
 copyLinkButton?.addEventListener("click", function () {
-    const embedUrl = `${window.location}/embed-chat/${channelName}?session_id=${sessionId}`;
+    const embedUrl = `${window.location}embed-chat/${channelName}?session_id=${sessionId}`;
     navigator.clipboard.writeText(embedUrl).then(() => {
         // Change button text or add a class for visual feedback
         const originalText = copyLinkButton.textContent;
