@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, jsonify
+from flask import Flask, render_template, request, Response, jsonify, make_response
 import socket, threading, json, datetime, re, uuid
 import requests, os
 from dotenv import load_dotenv
@@ -41,7 +41,7 @@ class ChatManager:
         self.active_chats = {}  # channel_name -> ChatSession
         self.user_sessions = {}  # session_id -> ChatSession
         self.lock = threading.Lock()
-    
+
     def get_or_create_chat(self, channel_name, session_id):
         with self.lock:
             # Check if channel already has an active chat
@@ -61,6 +61,7 @@ class ChatManager:
             # Start the chat thread
             chat_session.start()
             return chat_session
+
     
     def remove_user_session(self, session_id):
         with self.lock:
@@ -131,17 +132,34 @@ class ChatSession:
     
     def toggle_message_moderation(self, username, timestamp, text, reason):
         message_id = get_message_id(username, timestamp, text)
-        
+
         with self.lock:
             if message_id in self.moderated_messages:
-                self.moderated_messages.remove(message_id)
+                # Unmoderate
+                del self.moderated_messages[message_id]
+                self._persist_moderated_messages()
                 action = "unmoderated"
             else:
-                self.moderated_messages.add(message_id)
-                save_moderated_message(message_id, username, text, reason)
+                # Moderate
+                self.moderated_messages[message_id] = {
+                    "id": message_id,
+                    "username": username,
+                    "text": text,
+                    "reason": reason,
+                    "timestamp": datetime.datetime.now().isoformat()
+                }
+                self._persist_moderated_messages()
                 action = "moderated"
-        
+
         return action
+
+    def _persist_moderated_messages(self):
+        try:
+            with open(MODERATED_MESSAGES_FILE, 'w', encoding='utf-8') as f:
+                json.dump({'messages': list(self.moderated_messages.values())}, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"Error saving moderated messages: {e}")
+
     
     def _connect_to_chat(self):
         sock = socket.socket()
@@ -212,13 +230,17 @@ def load_moderated_messages():
         try:
             with open(MODERATED_MESSAGES_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                return set(data.get('messages', []))
+                messages = data.get('messages', [])
+                # Convert list -> dict by ID
+                return { msg['id']: msg for msg in messages }
         except Exception as e:
             print(f"Error loading moderated messages: {e}")
-    return set()
+    else:
+        print(f"No moderated messages file found at {MODERATED_MESSAGES_FILE}")
+    return {}
 
 def save_moderated_message(message_id, username, text, reason):
-    """Save a moderated message to the training file"""
+    """Save or update a single moderated message"""
     try:
         # Load existing data
         if os.path.exists(MODERATED_MESSAGES_FILE):
@@ -226,8 +248,11 @@ def save_moderated_message(message_id, username, text, reason):
                 data = json.load(f)
         else:
             data = {'messages': []}
-        
-        # Add new message
+
+        # Remove any message with the same id
+        data['messages'] = [msg for msg in data['messages'] if msg['id'] != message_id]
+
+        # Add the new version
         data['messages'].append({
             'id': message_id,
             'username': username,
@@ -235,11 +260,11 @@ def save_moderated_message(message_id, username, text, reason):
             'reason': reason,
             'timestamp': datetime.datetime.now().isoformat()
         })
-        
+
         # Save back to file
         with open(MODERATED_MESSAGES_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-            
+
     except Exception as e:
         print(f"Error saving moderated message: {e}")
 
@@ -281,18 +306,22 @@ def get_message_id(username, timestamp, text):
     return f"{username}-{timestamp}-{text}"
 
 def get_or_create_session_id(request):
-    """Get or create session ID from request headers or generate new one"""
-    # Try to get session ID from custom header first
+    """Get session ID from cookie or create new one"""
+    # Try custom header
     session_id = request.headers.get('X-Session-ID')
-    
-    # If not found, try to get from query parameters
+
+    # Or URL param
     if not session_id:
         session_id = request.args.get('session_id')
-    
-    # If still not found, generate a new one
+
+    # Or cookie!
+    if not session_id:
+        session_id = request.cookies.get('session_id')
+
+    # Generate new if still missing
     if not session_id:
         session_id = str(uuid.uuid4())
-        
+
     return session_id
 
 def cleanup_old_sessions():
@@ -312,52 +341,44 @@ def cleanup_old_sessions():
 @app.route('/', methods=["GET", "POST"])
 def index():
     session_id = get_or_create_session_id(request)
-    
-    # Update session activity
+
     user_sessions[session_id] = {
         'last_activity': time.time(),
         'current_channel': user_sessions.get(session_id, {}).get('current_channel')
     }
-    
+
     if request.method == "POST":
         channel = request.form.get("channel_name", "").strip().lower()
         if not channel:
-            return render_template("index.html", channel=None, error="Por favor ingrese un nombre de canal", session_id=session_id)
+            resp = make_response(render_template(
+                "index.html",
+                channel=None,
+                error="Por favor ingrese un nombre de canal",
+                session_id=session_id
+            ))
+            resp.set_cookie('session_id', session_id)
+            return resp
 
-        # Remove user from any existing chat
         chat_manager.remove_user_session(session_id)
-        
-        # Join new channel
         chat_session = chat_manager.get_or_create_chat(channel, session_id)
         user_sessions[session_id]['current_channel'] = channel
 
-        return render_template("index.html", channel=channel, session_id=session_id)
+        resp = make_response(render_template(
+            "index.html",
+            channel=channel,
+            session_id=session_id
+        ))
+        resp.set_cookie('session_id', session_id)
+        return resp
 
-    return render_template("index.html", channel=None, session_id=session_id)
+    resp = make_response(render_template(
+        "index.html",
+        channel=None,
+        session_id=session_id
+    ))
+    resp.set_cookie('session_id', session_id)
+    return resp
 
-@app.route('/channel/<channel_name>')
-def channel_redirect(channel_name):
-    """Handle direct channel links"""
-    session_id = get_or_create_session_id(request)
-    
-    # Update session activity
-    user_sessions[session_id] = {
-        'last_activity': time.time(),
-        'current_channel': channel_name
-    }
-    
-    channel = channel_name.strip().lower()
-    if not channel:
-        return render_template("index.html", channel=None, error="Nombre de canal inválido", session_id=session_id)
-
-    # Remove user from any existing chat
-    chat_manager.remove_user_session(session_id)
-    
-    # Join new channel
-    chat_session = chat_manager.get_or_create_chat(channel, session_id)
-    user_sessions[session_id]['current_channel'] = channel
-
-    return render_template("index.html", channel=channel, session_id=session_id)
 
 @app.route('/update_reasons', methods=['POST'])
 def update_reasons():
@@ -460,26 +481,28 @@ def stream_chat():
 def embed_chat(channel_name):
     session_id = get_or_create_session_id(request)
 
-    # Always store session data
     user_sessions[session_id] = {
         "channel": channel_name,
         "last_activity": time.time()
     }
 
-    chat_session = chat_manager.get_chat_for_session(session_id)
+    # Always get or create chat
+    chat_session = chat_manager.get_or_create_chat(channel_name, session_id)
 
     moderation_reason = chat_session.selected_reasons if chat_session else []
 
-    # Always get or create the chat
-    chat_session = chat_manager.get_or_create_chat(channel_name, session_id)
-
-    return render_template(
+    response = make_response(render_template(
         'chat_only.html',
         channel_name=channel_name,
         moderation_reason=moderation_reason,
         chat_lines=chat_session.chat_lines,
         session_id=session_id
-    )
+    ))
+
+    # Set cookie for 30 days
+    response.set_cookie('session_id', session_id, max_age=60*60*24*30)
+
+    return response
 
 
 @app.before_request
