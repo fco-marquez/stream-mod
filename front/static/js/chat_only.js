@@ -181,7 +181,7 @@ function updateMessageStatus(action, reasons) {
 
 // ===== EVENT SOURCE SETUP =====
 function initializeEventSource() {
-    const evtSource = new EventSource(`${window.location}/chat?session_id=${sessionId}`);
+    const evtSource = new EventSource(`${window.location}`);
     
     evtSource.onmessage = function(event) {
         const message = JSON.parse(event.data);
