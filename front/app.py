@@ -338,7 +338,7 @@ def cleanup_old_sessions():
         if session_id in user_sessions:
             del user_sessions[session_id]
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/stream-mod/front/', methods=["GET", "POST"])
 def index():
     session_id = get_or_create_session_id(request)
 
@@ -380,7 +380,7 @@ def index():
     return resp
 
 
-@app.route('/update_reasons', methods=['POST'])
+@app.route('/stream-mod/front/update_reasons', methods=['POST'])
 def update_reasons():
     session_id = get_or_create_session_id(request)
     
@@ -400,7 +400,7 @@ def update_reasons():
     
     return jsonify({"status": "error", "message": "Invalid request"}), 400
 
-@app.route('/toggle_moderation', methods=['POST'])
+@app.route('/stream-mod/front/toggle_moderation', methods=['POST'])
 def toggle_moderation():
     session_id = get_or_create_session_id(request)
     
@@ -442,7 +442,7 @@ def toggle_moderation():
     
     return jsonify({"status": "success", "action": action})
 
-@app.route('/chat')
+@app.route('/stream-mod/front/chat')
 def stream_chat():
     session_id = get_or_create_session_id(request)
     
@@ -477,7 +477,7 @@ def stream_chat():
     
     return Response(stream(), mimetype='text/event-stream')
 
-@app.route('/embed-chat/<string:channel_name>')
+@app.route('/stream-mod/front/embed-chat/<string:channel_name>')
 def embed_chat(channel_name):
     session_id = get_or_create_session_id(request)
 

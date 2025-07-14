@@ -129,7 +129,7 @@ async function unmoderateMessage() {
 
 async function toggleModeration(action, reasons = []) {
     try {
-        const response = await fetch(`${window.location}/toggle_moderation`, {
+        const response = await fetch(`${window.location.origin}/toggle_moderation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ function updateMessageStatus(action, reasons) {
 
 // ===== EVENT SOURCE SETUP =====
 function initializeEventSource() {
-    const evtSource = new EventSource(`${window.location}`);
+    const evtSource = new EventSource(`${window.location.origin}/stream-mod/front/chat?session_id=${sessionId}`);
     
     evtSource.onmessage = function(event) {
         const message = JSON.parse(event.data);

@@ -155,7 +155,7 @@ async function toggleModeration(message, reasons = null) {
     }
 
     try {
-        const response = await fetch(window.location + '/toggle_moderation', {
+        const response = await fetch(window.location.origin + '/stream-mod/front/toggle_moderation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ function updateMessageModerationStatus(message, action, reasons) {
 // ===== FILTER FUNCTIONS =====
 async function updateModerationReasons(reasons) {
     try {
-        const response = await fetch(window.location + '/update_reasons', {
+        const response = await fetch(window.location.origin + '/stream-mod/front/update_reasons', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ window.updateSelectedReasons = function(reason, isChecked) {
 
 // ===== EVENT SOURCE SETUP =====
 function initializeEventSource() {
-    const evtSource = new EventSource(window.location + `/chat?session_id=${sessionId}`);
+    const evtSource = new EventSource(window.location.origin + `/stream-mod/front/chat?session_id=${sessionId}`);
     
     evtSource.onmessage = function(event) {
         const messageData = JSON.parse(event.data);
@@ -319,12 +319,12 @@ function setupEventListeners() {
 
 // ===== EMBED CHAT BUTTON =====
 embedButton?.addEventListener("click", function() {
-    const embedUrl = `${window.location}embed-chat/${channelName}?session_id=${sessionId}`;
+    const embedUrl = `${window.location.origin}/stream-mod/front/embed-chat/${channelName}?session_id=${sessionId}`;
     window.open(embedUrl, "_blank", "width=600,height=800");
 });
 
 copyLinkButton?.addEventListener("click", function () {
-    const embedUrl = `${window.location}embed-chat/${channelName}?session_id=${sessionId}`;
+    const embedUrl = `${window.location.origin}/stream-mod/front/embed-chat/${channelName}?session_id=${sessionId}`;
     navigator.clipboard.writeText(embedUrl).then(() => {
         // Change button text or add a class for visual feedback
         const originalText = copyLinkButton.textContent;
