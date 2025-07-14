@@ -29,12 +29,13 @@ function formatReasons(message) {
 function createMessageElement(message) {
     const messageElement = document.createElement("p");
     messageElement.style.cursor = "pointer";
+    const timestampWithoutSeconds = message.timestamp.substring(0, 5);
     
     if (message.moderated) {
         messageElement.classList.add("moderated", "blurred");
-        messageElement.textContent = `${message.timestamp} - ${message.username}: [Moderado] Click para ver`;
+        messageElement.textContent = `${timestampWithoutSeconds} ${message.username}: [Moderado] Click para ver`;
     } else {
-        messageElement.textContent = `${message.timestamp} - ${message.username}: ${message.text}`;
+        messageElement.textContent = `${timestampWithoutSeconds} ${message.username}: ${message.text}`;
     }
     
     messageElement.addEventListener("click", () => openModal(message));

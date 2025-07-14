@@ -33,7 +33,7 @@ if os.getenv('LOCAL'):
 else:
     MODERATION_API_URL = "http://gate.dcc.uchile.cl/stream-mod/ia/moderate"
 
-MODERATED_MESSAGES_FILE = "moderated_messages.json"
+MODERATED_MESSAGES_FILE = "/moderate_json"
 
 # Global storage for multiple users/channels
 class ChatManager:

@@ -4,6 +4,7 @@ const chatBox = document.getElementById('chat-box');
 const modal = document.getElementById("message-modal");
 const channelName = document.getElementById('channel-name')?.value || '';
 const embedButton = document.getElementById("embed-chat-btn");
+const copyLinkButton = document.getElementById("copy-embed-link-btn");
 
 // Store all messages and current modal state
 let chatMessages = [];
@@ -321,6 +322,24 @@ embedButton?.addEventListener("click", function() {
     const embedUrl = `${window.location.origin}/embed-chat/${channelName}?session_id=${sessionId}`;
     window.open(embedUrl, "_blank", "width=600,height=800");
 });
+
+copyLinkButton?.addEventListener("click", function () {
+    const embedUrl = `${window.location.origin}/embed-chat/${channelName}?session_id=${sessionId}`;
+    navigator.clipboard.writeText(embedUrl).then(() => {
+        // Change button text or add a class for visual feedback
+        const originalText = copyLinkButton.textContent;
+        copyLinkButton.textContent = "Copied!";
+        copyLinkButton.disabled = true;
+
+        setTimeout(() => {
+            copyLinkButton.textContent = originalText;
+            copyLinkButton.disabled = false;
+        }, 2000);
+    }).catch(err => {
+        console.error('Error copying link:', err);
+    });
+});
+
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
