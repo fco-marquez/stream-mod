@@ -77,7 +77,7 @@ function openModal(message) {
     document.getElementById("modal-user").textContent = message.username;
     document.getElementById("modal-time").textContent = message.timestamp;
     document.getElementById("modal-reason").textContent = message.moderated 
-        ? `Razones: ${formatReasons(message)}` 
+        ? `Moderado: ${formatReasons(message)}` 
         : "No moderado";
     
     // Update button visibility
@@ -129,7 +129,7 @@ async function unmoderateMessage() {
 
 async function toggleModeration(action, reasons = []) {
     try {
-        const response = await fetch(`${window.location.origin}/toggle_moderation`, {
+        const response = await fetch(`${window.location.origin}/stream-mod/front/toggle_moderation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

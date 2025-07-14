@@ -35,6 +35,16 @@ else:
 
 MODERATED_MESSAGES_FILE = "/moderate_json"
 
+def set_session_cookie(response, session_id):
+    """Consistent session cookie setting"""
+    response.set_cookie(
+        'session_id', 
+        session_id, 
+        max_age=60*60*24*30,  # 30 days
+        httponly=True,        # Security
+        samesite='Lax'       # CSRF protection
+    )
+
 # Global storage for multiple users/channels
 class ChatManager:
     def __init__(self):
@@ -61,7 +71,6 @@ class ChatManager:
             # Start the chat thread
             chat_session.start()
             return chat_session
-
     
     def remove_user_session(self, session_id):
         with self.lock:
@@ -307,18 +316,9 @@ def get_message_id(username, timestamp, text):
 
 def get_or_create_session_id(request):
     """Get session ID from cookie or create new one"""
-    # Try custom header
-    session_id = request.headers.get('X-Session-ID')
+    session_id = request.cookies.get('session_id')
 
-    # Or URL param
-    if not session_id:
-        session_id = request.args.get('session_id')
-
-    # Or cookie!
-    if not session_id:
-        session_id = request.cookies.get('session_id')
-
-    # Generate new if still missing
+    # Generate new if missing cookie
     if not session_id:
         session_id = str(uuid.uuid4())
 
@@ -356,7 +356,7 @@ def index():
                 error="Por favor ingrese un nombre de canal",
                 session_id=session_id
             ))
-            resp.set_cookie('session_id', session_id)
+            set_session_cookie(resp, session_id)
             return resp
 
         chat_manager.remove_user_session(session_id)
@@ -368,7 +368,7 @@ def index():
             channel=channel,
             session_id=session_id
         ))
-        resp.set_cookie('session_id', session_id)
+        set_session_cookie(resp, session_id)
         return resp
 
     resp = make_response(render_template(
@@ -376,7 +376,7 @@ def index():
         channel=None,
         session_id=session_id
     ))
-    resp.set_cookie('session_id', session_id)
+    set_session_cookie(resp, session_id)
     return resp
 
 
@@ -500,7 +500,7 @@ def embed_chat(channel_name):
     ))
 
     # Set cookie for 30 days
-    response.set_cookie('session_id', session_id, max_age=60*60*24*30)
+    set_session_cookie(response, session_id)
 
     return response
 

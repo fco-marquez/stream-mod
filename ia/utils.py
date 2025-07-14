@@ -114,6 +114,7 @@ def download_model_files(model_dir):
     # Cleanup temp directory
     if os.path.exists(temp_dir):
         shutil.rmtree(temp_dir)
+
 def cargar_modelo(model_dir="modelo_final_guardado"):
     """
     Load the fine-tuned Tulio BERT model and tokenizer for moderation
@@ -173,14 +174,32 @@ def cargar_modelo(model_dir="modelo_final_guardado"):
         print(f"Error loading model: {str(e)}")
         raise
 
+def load_thresholds(threshold_file):
+    """
+    Load moderation thresholds from a JSON file.
+    
+    Parameters:
+    threshold_file (str): Path to the JSON file containing thresholds
+    
+    Returns:
+    dict: Dictionary of thresholds for each moderation category
+    """
+    try:
+        with open(threshold_file, 'r', encoding='utf-8') as f:
+            thresholds = json.load(f)
+        return thresholds
+    except Exception as e:
+        print(f"Error loading thresholds from {threshold_file}: {str(e)}")
+        return {category: 0.5 for category in MODERATION_CATEGORIES.values()}  # Default thresholds
+
 import torch
 
 # Example threshold
-THRESHOLD = 0.5
+THRESHOLDS = load_thresholds("modelo_final_guardado/thresholds.json")
 
 def get_prediction(text, model, tokenizer):
     """
-    Get moderation prediction and reasons for a message (multi-label)
+    Get moderation prediction and reasons for a message (multi-label, per-category thresholds)
 
     Parameters:
     text (str): Message to moderate
@@ -199,26 +218,30 @@ def get_prediction(text, model, tokenizer):
         padding=True,
         add_special_tokens=True
     )
-    
+
     model.eval()
     with torch.no_grad():
         try:
             outputs = model(**inputs)
             logits = outputs.logits
-            probabilities = torch.sigmoid(logits).squeeze()  # For multi-label, apply sigmoid
-            
-            # Get predicted categories (multi-label)
-            predicted_indices = (probabilities >= THRESHOLD).nonzero(as_tuple=True)[0].tolist()
+            probabilities = torch.sigmoid(logits).squeeze()  # For multi-label
+
+            predicted_indices = []
+            for i, prob in enumerate(probabilities):
+                category = MODERATION_CATEGORIES[i]
+                threshold = THRESHOLDS.get(category, 0.5)  # Default threshold if missing
+                if prob >= threshold:
+                    predicted_indices.append(i)
+
             reasons = [MODERATION_CATEGORIES[i] for i in predicted_indices]
 
-            # If all categories are non-baneable, approve
             approved = all(reason == 'No baneable' for reason in reasons) if reasons else True
 
             return approved, reasons if reasons else ["No baneable"]
 
         except Exception as e:
             print(f"Error in prediction: {str(e)}")
-            return True, ["appropriate"]  # Fallback
+            return True, ["No baneable"]  # Fallback
 
 
 def moderate_message(text, model, tokenizer):
