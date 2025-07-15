@@ -60,7 +60,6 @@ class ChatManager:
                 # Add this user session to the existing chat
                 chat_session.add_user_session(session_id)
                 self.user_sessions[session_id] = chat_session
-                print(f"Reconnected session {session_id} to existing chat for {channel_name}")
                 return chat_session
             
             # Create new chat session
@@ -68,8 +67,6 @@ class ChatManager:
             chat_session.add_user_session(session_id)
             self.active_chats[channel_name] = chat_session
             self.user_sessions[session_id] = chat_session
-            
-            print(f"Created new chat session for {channel_name} with session {session_id}")
             
             # Start the chat thread
             chat_session.start()
@@ -112,49 +109,6 @@ class ChatSession:
             'Otros',
             'Amenaza/acoso violento'
         ])
-        self._load_chat_history()
-
-    def _get_chat_file_path(self):
-        """Get the file path for this channel's chat history"""
-        return f"/tmp/chat_history_{self.channel_name}.json"
-    
-    def _load_chat_history(self):
-        """Load chat history from file"""
-        try:
-            chat_file = self._get_chat_file_path()
-            if os.path.exists(chat_file):
-                with open(chat_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    # Only load recent messages (last 100 or last hour)
-                    recent_messages = []
-                    current_time = datetime.datetime.now()
-                    
-                    for msg in data.get('messages', []):
-                        try:
-                            # Parse timestamp to check if it's recent
-                            msg_time = datetime.datetime.strptime(msg['timestamp'], '%H:%M:%S')
-                            # If it's from today and within last hour, keep it
-                            if len(recent_messages) < 100:  # Keep last 100 messages
-                                recent_messages.append(msg)
-                        except:
-                            continue
-                    
-                    self.chat_lines = recent_messages[-100:]  # Keep last 100 messages
-        except Exception as e:
-            print(f"Error loading chat history for {self.channel_name}: {e}")
-            self.chat_lines = []
-    
-    def _save_chat_history(self):
-        """Save current chat history to file"""
-        try:
-            chat_file = self._get_chat_file_path()
-            # Only save last 100 messages to avoid huge files
-            messages_to_save = self.chat_lines[-100:] if len(self.chat_lines) > 100 else self.chat_lines
-            
-            with open(chat_file, 'w', encoding='utf-8') as f:
-                json.dump({'messages': messages_to_save}, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"Error saving chat history for {self.channel_name}: {e}")
     
     def add_user_session(self, session_id):
         with self.lock:
@@ -178,8 +132,6 @@ class ChatSession:
     
     def stop(self):
         self.stop_event.set()
-        # Save chat history when stopping
-        self._save_chat_history()
         if self.chat_thread and self.chat_thread.is_alive():
             self.chat_thread.join(timeout=5)
     
@@ -228,7 +180,7 @@ class ChatSession:
 
             while not self.stop_event.is_set():
                 try:
-                    sock.settimeout(1.0)
+                    sock.settimeout(1.0)  # Allow periodic checking of stop_event
                     response = sock.recv(2048).decode('utf-8')
                     
                     if "PING" in response:
@@ -260,31 +212,24 @@ class ChatSession:
                                     else:
                                         moderation_reasons = ["No baneable"]
 
-                                new_message = {
+                                self.chat_lines.append({
                                     "text": message,
                                     "moderated": is_moderated,
                                     "reasons": moderation_reasons,
                                     "username": username,
                                     "timestamp": timestamp
-                                }
-                                
-                                self.chat_lines.append(new_message)
-                                
-                                # Save to file periodically (every 10 messages)
-                                if len(self.chat_lines) % 10 == 0:
-                                    self._save_chat_history()
+                                })
                                 
                 except socket.timeout:
-                    continue
+                    continue  # Continue checking stop_event
                 except Exception as e:
                     print(f"Error in chat connection: {str(e)}")
                     break
         except Exception as e:
             print(f"Failed to connect to chat: {str(e)}")
         finally:
-            # Save chat history when connection closes
-            self._save_chat_history()
             sock.close()
+
 # Global chat manager
 chat_manager = ChatManager()
 
@@ -371,25 +316,20 @@ def get_message_id(username, timestamp, text):
 
 def get_or_create_session_id(request):
     """Get session ID from cookie or create new one"""
-    session_id = None
-    
-    # Try cookie first (most reliable for page refreshes)
-    session_id = request.cookies.get('session_id')
-    
     # Try custom header
-    if not session_id:
-        session_id = request.headers.get('X-Session-ID')
+    session_id = request.headers.get('X-Session-ID')
 
-    # Try URL param
+    # Or URL param
     if not session_id:
         session_id = request.args.get('session_id')
+
+    # Or cookie!
+    if not session_id:
+        session_id = request.cookies.get('session_id')
 
     # Generate new if still missing
     if not session_id:
         session_id = str(uuid.uuid4())
-        print(f"Generated new session ID: {session_id}")
-    else:
-        print(f"Using existing session ID: {session_id}")
 
     return session_id
 
