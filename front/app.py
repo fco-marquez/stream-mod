@@ -510,10 +510,16 @@ def stream_chat():
     def stream():
         prev_len = 0
         last_check = time.time()
+        last_ping = time.time()
         
         while True:
-            # Check if session is still active every 30 seconds
             current_time = time.time()
+            # Send keep-alive ping every 10 seconds
+            if current_time - last_ping > 10:
+                yield ": keep-alive\n\n"
+                last_ping = current_time
+            
+            # Check if session is still active every 30 seconds
             if current_time - last_check > 30:
                 if not chat_session.has_active_users():
                     break
