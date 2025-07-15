@@ -19,6 +19,26 @@ MODERATION_CATEGORIES = {
     10: 'No baneable'
 }
 
+def load_thresholds(threshold_file):
+    """
+    Load moderation thresholds from a JSON file.
+    
+    Parameters:
+    threshold_file (str): Path to the JSON file containing thresholds
+    
+    Returns:
+    dict: Dictionary of thresholds for each moderation category
+    """
+    try:
+        with open(threshold_file, 'r', encoding='utf-8') as f:
+            thresholds = json.load(f)
+        return thresholds
+    except Exception as e:
+        print(f"Error loading thresholds from {threshold_file}: {str(e)}")
+        return {category: 0.5 for category in MODERATION_CATEGORIES.values()}  # Default thresholds
+
+THRESHOLDS = load_thresholds("modelo_final_guardado/thresholds.json")
+
 class WeightedLossModel(BertForSequenceClassification):
     def _init_(self, config, class_weights=None):
         super()._init_(config)
@@ -174,28 +194,7 @@ def cargar_modelo(model_dir="modelo_final_guardado"):
         print(f"Error loading model: {str(e)}")
         raise
 
-def load_thresholds(threshold_file):
-    """
-    Load moderation thresholds from a JSON file.
-    
-    Parameters:
-    threshold_file (str): Path to the JSON file containing thresholds
-    
-    Returns:
-    dict: Dictionary of thresholds for each moderation category
-    """
-    try:
-        with open(threshold_file, 'r', encoding='utf-8') as f:
-            thresholds = json.load(f)
-        return thresholds
-    except Exception as e:
-        print(f"Error loading thresholds from {threshold_file}: {str(e)}")
-        return {category: 0.5 for category in MODERATION_CATEGORIES.values()}  # Default thresholds
-
 import torch
-
-# Example threshold
-THRESHOLDS = load_thresholds("modelo_final_guardado/thresholds.json")
 
 def get_prediction(text, model, tokenizer):
     """
@@ -228,8 +227,7 @@ def get_prediction(text, model, tokenizer):
 
             predicted_indices = []
             for i, prob in enumerate(probabilities):
-                category = MODERATION_CATEGORIES[i]
-                threshold = THRESHOLDS.get(category, 0.5)  # Default threshold if missing
+                threshold = THRESHOLDS[i]
                 if prob >= threshold:
                     predicted_indices.append(i)
 
