@@ -320,7 +320,7 @@ function setupEventListeners() {
 // ===== EMBED CHAT BUTTON =====
 embedButton?.addEventListener("click", function() {
     const embedUrl = `${window.location.origin}/stream-mod/front/embed-chat/${channelName}?session_id=${sessionId}`;
-    window.open(embedUrl, "_blank", "width=600,height=800");
+    window.open(embedUrl, "_blank", "width=400,height=500");
 });
 
 copyLinkButton?.addEventListener("click", function () {
