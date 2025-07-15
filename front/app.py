@@ -514,8 +514,8 @@ def stream_chat():
         
         while True:
             current_time = time.time()
-            # Send keep-alive ping every 10 seconds
-            if current_time - last_ping > 10:
+            # Send keep-alive ping every 5 seconds
+            if current_time - last_ping > 5:
                 yield ": keep-alive\n\n"
                 last_ping = current_time
             
