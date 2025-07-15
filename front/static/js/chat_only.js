@@ -6,6 +6,7 @@ const modal = document.getElementById("message-modal");
 // Global state
 let chatMessages = [];
 let currentMessage = null;
+let activeFilters = []; // Track current moderation filters
 
 // ===== UTILITY FUNCTIONS =====
 function getSelectedReasons() {
@@ -25,13 +26,40 @@ function formatReasons(message) {
     return message.reason || 'Moderado';
 }
 
+// ===== FILTER FUNCTIONS =====
+function shouldShowMessage(message) {
+    // Always show all messages - filtering is handled in display, not visibility
+    return true;
+}
+
+function shouldBlurMessage(message) {
+    // If no filters are active, show all messages normally (no blur)
+    if (activeFilters.length === 0) {
+        return false;
+    }
+    
+    // If message is not moderated, never blur it
+    if (!message.moderated) {
+        return false;
+    }
+    
+    // If message is moderated, blur it only if any of its reasons match active filters
+    const messageReasons = message.reasons || [message.reason || 'Moderado'];
+    return messageReasons.some(reason => activeFilters.includes(reason));
+}
+
+function updateActiveFilters(filters) {
+    activeFilters = filters;
+    refreshChatDisplay();
+}
+
 // ===== MESSAGE DISPLAY =====
 function createMessageElement(message) {
     const messageElement = document.createElement("p");
     messageElement.style.cursor = "pointer";
     const timestampWithoutSeconds = message.timestamp.substring(0, 5);
     
-    if (message.moderated) {
+    if (message.moderated && shouldBlurMessage(message)) {
         messageElement.classList.add("moderated", "blurred");
         messageElement.textContent = `${timestampWithoutSeconds} ${message.username}: [Moderado] Click para ver`;
     } else {
@@ -52,7 +80,7 @@ function addNewMessage(message) {
     
     if (isDuplicate) return;
     
-    // Add to store and display
+    // Add to store and display (all messages are always shown)
     chatMessages.push(message);
     const messageElement = createMessageElement(message);
     chatBox.appendChild(messageElement);
@@ -198,6 +226,26 @@ function initializeEventSource() {
     return evtSource;
 }
 
+function initializeFiltersEventSource() {
+    const filtersEvtSource = new EventSource(`${window.location.origin}/stream-mod/front/filters?session_id=${sessionId}`);
+    
+    filtersEvtSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        if (data.type === 'filters_update') {
+            updateActiveFilters(data.filters);
+        }
+    };
+    
+    filtersEvtSource.onerror = function(event) {
+        console.error('Filters EventSource failed:', event);
+    };
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => filtersEvtSource.close());
+    
+    return filtersEvtSource;
+}
+
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
     // Modal close button
@@ -230,4 +278,5 @@ function setupEventListeners() {
 document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     initializeEventSource();
+    initializeFiltersEventSource();
 });

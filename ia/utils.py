@@ -227,7 +227,8 @@ def get_prediction(text, model, tokenizer):
 
             predicted_indices = []
             for i, prob in enumerate(probabilities):
-                threshold = THRESHOLDS[i]
+                category = MODERATION_CATEGORIES[i]
+                threshold = THRESHOLDS.get(category, 0.5)  # Default threshold if missing
                 if prob >= threshold:
                     predicted_indices.append(i)
 

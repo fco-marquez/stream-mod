@@ -60,6 +60,7 @@ class ChatManager:
                 # Add this user session to the existing chat
                 chat_session.add_user_session(session_id)
                 self.user_sessions[session_id] = chat_session
+                print(f"Reconnected session {session_id} to existing chat for {channel_name}")
                 return chat_session
             
             # Create new chat session
@@ -67,6 +68,8 @@ class ChatManager:
             chat_session.add_user_session(session_id)
             self.active_chats[channel_name] = chat_session
             self.user_sessions[session_id] = chat_session
+            
+            print(f"Created new chat session for {channel_name} with session {session_id}")
             
             # Start the chat thread
             chat_session.start()
@@ -109,6 +112,49 @@ class ChatSession:
             'Otros',
             'Amenaza/acoso violento'
         ])
+        self._load_chat_history()
+
+    def _get_chat_file_path(self):
+        """Get the file path for this channel's chat history"""
+        return f"/tmp/chat_history_{self.channel_name}.json"
+    
+    def _load_chat_history(self):
+        """Load chat history from file"""
+        try:
+            chat_file = self._get_chat_file_path()
+            if os.path.exists(chat_file):
+                with open(chat_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    # Only load recent messages (last 100 or last hour)
+                    recent_messages = []
+                    current_time = datetime.datetime.now()
+                    
+                    for msg in data.get('messages', []):
+                        try:
+                            # Parse timestamp to check if it's recent
+                            msg_time = datetime.datetime.strptime(msg['timestamp'], '%H:%M:%S')
+                            # If it's from today and within last hour, keep it
+                            if len(recent_messages) < 100:  # Keep last 100 messages
+                                recent_messages.append(msg)
+                        except:
+                            continue
+                    
+                    self.chat_lines = recent_messages[-100:]  # Keep last 100 messages
+        except Exception as e:
+            print(f"Error loading chat history for {self.channel_name}: {e}")
+            self.chat_lines = []
+    
+    def _save_chat_history(self):
+        """Save current chat history to file"""
+        try:
+            chat_file = self._get_chat_file_path()
+            # Only save last 100 messages to avoid huge files
+            messages_to_save = self.chat_lines[-100:] if len(self.chat_lines) > 100 else self.chat_lines
+            
+            with open(chat_file, 'w', encoding='utf-8') as f:
+                json.dump({'messages': messages_to_save}, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"Error saving chat history for {self.channel_name}: {e}")
     
     def add_user_session(self, session_id):
         with self.lock:
@@ -132,6 +178,8 @@ class ChatSession:
     
     def stop(self):
         self.stop_event.set()
+        # Save chat history when stopping
+        self._save_chat_history()
         if self.chat_thread and self.chat_thread.is_alive():
             self.chat_thread.join(timeout=5)
     
@@ -180,7 +228,7 @@ class ChatSession:
 
             while not self.stop_event.is_set():
                 try:
-                    sock.settimeout(1.0)  # Allow periodic checking of stop_event
+                    sock.settimeout(1.0)
                     response = sock.recv(2048).decode('utf-8')
                     
                     if "PING" in response:
@@ -212,24 +260,31 @@ class ChatSession:
                                     else:
                                         moderation_reasons = ["No baneable"]
 
-                                self.chat_lines.append({
+                                new_message = {
                                     "text": message,
                                     "moderated": is_moderated,
                                     "reasons": moderation_reasons,
                                     "username": username,
                                     "timestamp": timestamp
-                                })
+                                }
+                                
+                                self.chat_lines.append(new_message)
+                                
+                                # Save to file periodically (every 10 messages)
+                                if len(self.chat_lines) % 10 == 0:
+                                    self._save_chat_history()
                                 
                 except socket.timeout:
-                    continue  # Continue checking stop_event
+                    continue
                 except Exception as e:
                     print(f"Error in chat connection: {str(e)}")
                     break
         except Exception as e:
             print(f"Failed to connect to chat: {str(e)}")
         finally:
+            # Save chat history when connection closes
+            self._save_chat_history()
             sock.close()
-
 # Global chat manager
 chat_manager = ChatManager()
 
@@ -316,11 +371,25 @@ def get_message_id(username, timestamp, text):
 
 def get_or_create_session_id(request):
     """Get session ID from cookie or create new one"""
+    session_id = None
+    
+    # Try cookie first (most reliable for page refreshes)
     session_id = request.cookies.get('session_id')
+    
+    # Try custom header
+    if not session_id:
+        session_id = request.headers.get('X-Session-ID')
 
-    # Generate new if missing cookie
+    # Try URL param
+    if not session_id:
+        session_id = request.args.get('session_id')
+
+    # Generate new if still missing
     if not session_id:
         session_id = str(uuid.uuid4())
+        print(f"Generated new session ID: {session_id}")
+    else:
+        print(f"Using existing session ID: {session_id}")
 
     return session_id
 
@@ -399,6 +468,49 @@ def update_reasons():
         return jsonify({"status": "success", "reasons": list(chat_session.selected_reasons)})
     
     return jsonify({"status": "error", "message": "Invalid request"}), 400
+
+@app.route('/stream-mod/front/filters')
+def filters_stream():
+    session_id = get_or_create_session_id(request)
+    
+    # Update session activity
+    if session_id in user_sessions:
+        user_sessions[session_id]['last_activity'] = time.time()
+    
+    chat_session = chat_manager.get_chat_for_session(session_id)
+    
+    if not chat_session:
+        return jsonify({"status": "error", "message": "No active chat session"}), 400
+    
+    def stream_filters():
+        last_check = time.time()
+        last_filters = set()
+        
+        # Send current filters immediately
+        with chat_session.lock:
+            current_filters = list(chat_session.selected_reasons)
+            last_filters = set(current_filters)
+            yield f"data: {json.dumps({'type': 'filters_update', 'filters': current_filters})}\n\n"
+        
+        while True:
+            # Check if session is still active every 30 seconds
+            current_time = time.time()
+            if current_time - last_check > 30:
+                if not chat_session.has_active_users():
+                    break
+                last_check = current_time
+            
+            # Check for filter changes
+            with chat_session.lock:
+                current_filters = set(chat_session.selected_reasons)
+                if current_filters != last_filters:
+                    last_filters = current_filters
+                    yield f"data: {json.dumps({'type': 'filters_update', 'filters': list(current_filters)})}\n\n"
+            
+            time.sleep(1)  # Check every second
+    
+    return Response(stream_filters(), mimetype='text/event-stream')
+
 
 @app.route('/stream-mod/front/toggle_moderation', methods=['POST'])
 def toggle_moderation():
@@ -480,13 +592,19 @@ def stream_chat():
 @app.route('/stream-mod/front/embed-chat/<string:channel_name>')
 def embed_chat(channel_name):
     session_id = get_or_create_session_id(request)
+    
+    # Check if we already have a session for this user
+    existing_session = None
+    if session_id in user_sessions:
+        existing_session = user_sessions[session_id]
+        existing_session['last_activity'] = time.time()
+    else:
+        user_sessions[session_id] = {
+            "channel": channel_name,
+            "last_activity": time.time()
+        }
 
-    user_sessions[session_id] = {
-        "channel": channel_name,
-        "last_activity": time.time()
-    }
-
-    # Always get or create chat
+    # Always get or create chat - this will reuse existing chat if available
     chat_session = chat_manager.get_or_create_chat(channel_name, session_id)
 
     moderation_reason = chat_session.selected_reasons if chat_session else []
@@ -495,11 +613,11 @@ def embed_chat(channel_name):
         'chat_only.html',
         channel_name=channel_name,
         moderation_reason=moderation_reason,
-        chat_lines=chat_session.chat_lines,
+        chat_lines=chat_session.chat_lines,  # This will be empty on fresh start
         session_id=session_id
     ))
 
-    # Set cookie for 30 days
+    # Ensure session cookie is set with proper settings
     set_session_cookie(response, session_id)
 
     return response

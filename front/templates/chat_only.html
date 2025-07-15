@@ -11,6 +11,20 @@
     
     <div id="chat-box" class="chat-box"></div>
 
+
+        <div class="moderation-reason">
+            <h3>Razones de Moderación</h3>
+            <div class="reason-filters">
+                {% for reason in moderation_reason %}
+                    <label>
+                        <input type="checkbox" name="reason" value="{{ reason }}" checked>
+                        <span>{{ reason }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+
     <!-- Enhanced Moderation Modal -->
     <div id="message-modal" class="modal hidden">
         <div class="modal-content">
@@ -110,6 +124,8 @@
             'Amenaza/acoso violento',
             'Otros'
         ]);
+
+
     </script>
 
     <script src="{{ url_for('static', filename='js/chat_only.js') }}"></script>
