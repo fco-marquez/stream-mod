@@ -447,7 +447,7 @@ def filters_stream():
                     last_filters = current_filters
                     yield f"data: {json.dumps({'type': 'filters_update', 'filters': list(current_filters)})}\n\n"
             
-            time.sleep(1)  # Check every second
+            time.sleep(0.5)  # Check every second
     
     return Response(stream_filters(), mimetype='text/event-stream')
 
